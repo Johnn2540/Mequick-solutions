@@ -42,27 +42,34 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column">
+          <!-- Deliberately NOT data-bs-dismiss="offcanvas" on these links —
+               that attribute makes Bootstrap call preventDefault() on the
+               click, which silently blocked every one of these from
+               navigating anywhere on mobile (confirmed: the drawer opened
+               fine, but tapping a link just did nothing). Not needed
+               anyway: clicking a real link navigates to a new page, which
+               unloads this drawer along with everything else on the page. -->
           <ul class="navbar-nav ms-lg-auto align-items-lg-center gap-lg-1">
             <li class="nav-item">
-              <a class="nav-link {{#eq currentPath '/'}}active{{/eq}}" href="/" data-bs-dismiss="offcanvas">Home</a>
+              <a class="nav-link {{#eq currentPath '/'}}active{{/eq}}" href="/">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{#if (startsWith currentPath '/products')}}active{{/if}}" href="/products" data-bs-dismiss="offcanvas">Products</a>
+              <a class="nav-link {{#if (startsWith currentPath '/products')}}active{{/if}}" href="/products">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{#if (startsWith currentPath '/categories')}}active{{/if}}" href="/categories" data-bs-dismiss="offcanvas">Categories</a>
+              <a class="nav-link {{#if (startsWith currentPath '/categories')}}active{{/if}}" href="/categories">Categories</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{#eq currentPath '/about'}}active{{/eq}}" href="/about" data-bs-dismiss="offcanvas">About Us</a>
+              <a class="nav-link {{#eq currentPath '/about'}}active{{/eq}}" href="/about">About Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{#eq currentPath '/services'}}active{{/eq}}" href="/services" data-bs-dismiss="offcanvas">Services</a>
+              <a class="nav-link {{#eq currentPath '/services'}}active{{/eq}}" href="/services">Services</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{#eq currentPath '/contact'}}active{{/eq}}" href="/contact" data-bs-dismiss="offcanvas">Contact</a>
+              <a class="nav-link {{#eq currentPath '/contact'}}active{{/eq}}" href="/contact">Contact</a>
             </li>
             <li class="nav-item navbar-cta-item ms-lg-2 mt-2 mt-lg-0">
-              <a class="btn btn-danger btn-sm px-3" href="/request-quote" data-bs-dismiss="offcanvas">Request a Quote</a>
+              <a class="btn btn-danger btn-sm px-3" href="/request-quote">Request a Quote</a>
             </li>
             <li class="nav-item navbar-cta-item mt-2 mt-lg-0">
               <a class="btn btn-outline-secondary btn-sm px-3 ms-lg-2" href="/admin/login">
