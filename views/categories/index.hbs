@@ -7,9 +7,9 @@
       </p>
     </div>
 
-    <div class="row g-4">
+    <div class="row g-3">
       {{#each categories}}
-        <div class="col-lg-4 col-md-6">
+        <div class="col-6 col-lg-4">
           <a href="/categories/{{this.slug}}" class="card h-100 text-decoration-none border-0 shadow-sm category-list-card">
             {{#if this.image}}
               <img src="{{this.image}}" class="card-img-top category-list-img" alt="{{this.name}}" loading="lazy">
@@ -21,7 +21,7 @@
             <div class="card-body">
               <h5 class="card-title text-primary fw-semibold">{{this.name}}</h5>
               {{#if this.description}}
-                <p class="card-text text-muted small">{{truncate this.description 100}}</p>
+                <p class="card-text text-muted small d-none d-md-block">{{truncate this.description 100}}</p>
               {{/if}}
               <span class="badge text-bg-primary-subtle text-primary">{{this.productCount}} Products</span>
             </div>

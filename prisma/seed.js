@@ -188,7 +188,9 @@ async function main() {
         name: cat.name,
         slug,
         description: cat.description,
-        image: placeholderImage(cat.name, '800x500'),
+        images: {
+          create: [{ url: placeholderImage(cat.name, '800x500'), isPrimary: true }],
+        },
       },
     });
     categoryIdByName[cat.name] = category.id;

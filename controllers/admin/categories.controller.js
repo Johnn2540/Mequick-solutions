@@ -16,7 +16,8 @@ exports.newForm = asyncHandler(async (req, res) => {
 
 // POST /admin/categories
 exports.create = asyncHandler(async (req, res) => {
-  const category = await categoryService.createCategory(req.body, req.file);
+  const files = req.files || [];
+  const category = await categoryService.createCategory(req.body, files);
   await logAction({
     req,
     action: AUDIT.CATEGORY_CREATE,
@@ -43,7 +44,9 @@ exports.editForm = asyncHandler(async (req, res) => {
 
 // POST /admin/categories/:id
 exports.update = asyncHandler(async (req, res) => {
-  const category = await categoryService.updateCategory(req.params.id, req.body, req.file);
+  const files = req.files || [];
+  const removeImageIds = [].concat(req.body.removeImageIds || []).filter(Boolean);
+  const category = await categoryService.updateCategory(req.params.id, req.body, files, removeImageIds);
   await logAction({
     req,
     action: AUDIT.CATEGORY_UPDATE,
@@ -53,6 +56,13 @@ exports.update = asyncHandler(async (req, res) => {
   });
   if (res.flash) res.flash('success', 'Category updated successfully.');
   res.redirect('/admin/categories');
+});
+
+// POST /admin/categories/:id/images/:imageId/primary
+exports.setPrimaryImage = asyncHandler(async (req, res) => {
+  await categoryService.setPrimaryImage(req.params.id, req.params.imageId);
+  if (res.flash) res.flash('success', 'Primary image updated.');
+  res.redirect(`/admin/categories/${req.params.id}/edit`);
 });
 
 // POST /admin/categories/:id/delete

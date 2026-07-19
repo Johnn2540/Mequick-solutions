@@ -132,21 +132,32 @@ model LoginHistory {
 }
 
 model Category {
-  id            String    @id @default(cuid())
-  name          String
-  slug          String    @unique
-  image         String?
-  // Cloudinary public_id for `image` — without this there is no way to
-  // delete the asset when the category is deleted or its image replaced,
-  // so uploads silently accumulate (orphaned) in Cloudinary forever.
-  imagePublicId String?
-  description   String?
-  products      Product[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id          String          @id @default(cuid())
+  name        String
+  slug        String          @unique
+  description String?
+  // Up to 10 images (enforced in the service layer, same as Product) — this
+  // replaced a single `image`/`imagePublicId` pair. See CategoryImage below.
+  images      CategoryImage[]
+  products    Product[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
   @@index([slug])
   @@map("categories")
+}
+
+model CategoryImage {
+  id         String   @id @default(cuid())
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  url        String
+  publicId   String? // Cloudinary public_id, used to delete the asset on removal
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([categoryId])
+  @@map("category_images")
 }
 
 model Brand {
@@ -154,7 +165,7 @@ model Brand {
   name         String    @unique
   slug         String    @unique
   logo         String?
-  // Cloudinary public_id for `logo` — see Category.imagePublicId for why
+  // Cloudinary public_id for `logo` — see CategoryImage.publicId for why
   // this is needed alongside the URL.
   logoPublicId String?
   products     Product[]

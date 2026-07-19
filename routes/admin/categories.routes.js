@@ -11,9 +11,10 @@ const controller = require('../../controllers/admin/categories.controller');
 router.get('/', controller.list);
 router.get('/new', controller.newForm);
 // csrfProtection runs AFTER Multer — see routes/admin/products.routes.js.
-router.post('/', upload.single('image'), csrfProtection, categoryValidator, validate, controller.create);
+router.post('/', upload.array('images', 10), csrfProtection, categoryValidator, validate, controller.create);
 router.get('/:id/edit', controller.editForm);
-router.post('/:id', upload.single('image'), csrfProtection, categoryValidator, validate, controller.update);
+router.post('/:id', upload.array('images', 10), csrfProtection, categoryValidator, validate, controller.update);
 router.post('/:id/delete', csrfProtection, requireRole('SUPER_ADMIN', 'ADMIN'), controller.remove);
+router.post('/:id/images/:imageId/primary', csrfProtection, controller.setPrimaryImage);
 
 module.exports = router;

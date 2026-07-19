@@ -15,11 +15,34 @@
           </div>
 
           <div class="mb-3">
-            {{#if category.image}}
-              <img src="{{category.image}}" class="admin-image-preview d-block mb-2" alt="{{category.name}}">
+            {{#if category.images.length}}
+              <div class="d-flex flex-wrap gap-3 mb-3">
+                {{#each category.images}}
+                  <div class="text-center">
+                    <img src="{{this.url}}" class="admin-image-preview mb-1" alt="{{../category.name}}">
+                    <div class="form-check small">
+                      <input class="form-check-input" type="checkbox" name="removeImageIds" value="{{this.id}}" id="rm-{{this.id}}">
+                      <label class="form-check-label" for="rm-{{this.id}}">Remove</label>
+                    </div>
+                    {{#unless this.isPrimary}}
+                      <div>
+                        <button type="submit" formaction="/admin/categories/{{../category.id}}/images/{{this.id}}/primary" formnovalidate class="btn btn-link btn-sm p-0">
+                          Set Primary
+                        </button>
+                      </div>
+                    {{else}}
+                      <span class="badge text-bg-primary">Primary</span>
+                    {{/unless}}
+                  </div>
+                {{/each}}
+              </div>
             {{/if}}
-            <label for="image" class="form-label">{{#if category.image}}Replace Image{{else}}Category Image{{/if}}</label>
-            <input type="file" id="image" name="image" class="form-control" accept="image/png,image/jpeg,image/webp,image/avif">
+
+            <label for="images" class="form-label">
+              {{#if category.images.length}}Add More Images{{else}}Category Images{{/if}}
+            </label>
+            <input type="file" id="images" name="images" class="form-control" accept="image/png,image/jpeg,image/webp,image/avif" multiple>
+            <div class="form-text">Up to 10 images, 5MB each. The first image uploaded becomes the primary (card) image — change it anytime with "Set Primary".</div>
           </div>
 
           <button type="submit" class="btn btn-primary px-4">{{#if category}}Update Category{{else}}Create Category{{/if}}</button>
