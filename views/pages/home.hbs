@@ -1,0 +1,135 @@
+<!-- Hero Section -->
+<section class="hero-section text-white">
+  <div class="container py-5">
+    <div class="row align-items-center min-vh-50 py-5">
+      <div class="col-lg-7">
+        <span class="badge bg-white text-primary fw-semibold mb-3 px-3 py-2">
+          <i class="bi bi-shield-check me-1"></i>Trusted Medical Equipment Supplier in Kenya
+        </span>
+        <h1 class="display-5 fw-bold mb-3">Your Trusted Partner for Medical Equipment &amp; Healthcare Supplies</h1>
+        <p class="lead mb-4 text-white-50">
+          Supplying quality medical equipment, laboratory products, hospital furniture, surgical instruments,
+          and healthcare consumables across Kenya.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/products" class="btn btn-light btn-lg px-4 fw-semibold">
+            <i class="bi bi-box-seam me-2"></i>Browse Products
+          </a>
+          <a href="/request-quote" class="btn btn-danger btn-lg px-4 fw-semibold">
+            <i class="bi bi-file-earmark-text me-2"></i>Request a Quote
+          </a>
+          <a href="/contact" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+            <i class="bi bi-chat-dots me-2"></i>Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">What We Offer</h6>
+      <h2 class="fw-bold">Product Categories</h2>
+      <p class="text-muted col-lg-6 mx-auto">
+        Browse our wide range of medical equipment and healthcare supplies, organized by category.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      {{#each categories}}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          <a href="/categories/{{this.slug}}" class="category-card card h-100 text-decoration-none border-0 shadow-sm">
+            <div class="card-body text-center p-4">
+              <div class="category-icon mb-3">
+                <i class="bi {{this.icon}}"></i>
+              </div>
+              <h6 class="card-title fw-semibold text-primary mb-1">{{this.name}}</h6>
+              <p class="small text-muted mb-0">{{this.productCount}} Products</p>
+            </div>
+          </a>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+{{#if featuredProducts.length}}
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Handpicked</h6>
+      <h2 class="fw-bold">Featured Products</h2>
+    </div>
+
+    <div class="row g-4">
+      {{#each featuredProducts}}
+        {{> product_card}}
+      {{/each}}
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="/products" class="btn btn-outline-primary px-4">View All Products <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+{{/if}}
+
+<!-- Why Choose Us -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Why Choose Us</h6>
+      <h2 class="fw-bold">Why Choose {{company.name}}</h2>
+    </div>
+
+    <div class="row g-4">
+      {{#each whyChooseUs}}
+        <div class="col-lg-3 col-md-6">
+          <div class="text-center p-4 why-card h-100">
+            <div class="why-icon mb-3">
+              <i class="bi {{this.icon}}"></i>
+            </div>
+            <h6 class="fw-semibold">{{this.title}}</h6>
+            <p class="small text-muted mb-0">{{this.text}}</p>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<!-- Brands -->
+<section class="py-5">
+  <div class="container text-center">
+    <h6 class="text-uppercase text-primary fw-semibold">Trusted By</h6>
+    <h2 class="fw-bold mb-5">Brands We Work With</h2>
+    <div class="row g-4 justify-content-center align-items-center brand-placeholder-row">
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="cta-section py-5 text-white text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Need Help Finding the Right Equipment?</h2>
+    <p class="lead mb-4 text-white-50">Our team is ready to help you source the right medical equipment for your facility.</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="{{waLink company.whatsapp}}" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-lg px-4">
+        <i class="bi bi-whatsapp me-2"></i>Chat on WhatsApp
+      </a>
+      <a href="/request-quote" class="btn btn-danger btn-lg px-4">
+        <i class="bi bi-file-earmark-text me-2"></i>Request a Quote
+      </a>
+    </div>
+  </div>
+</section>

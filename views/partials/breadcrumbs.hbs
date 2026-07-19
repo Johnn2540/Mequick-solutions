@@ -1,0 +1,16 @@
+{{#if breadcrumbs}}
+<nav aria-label="breadcrumb" class="bg-light border-bottom">
+  <div class="container">
+    <ol class="breadcrumb py-2 mb-0 small">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      {{#each breadcrumbs}}
+        {{#if this.url}}
+          <li class="breadcrumb-item"><a href="{{this.url}}">{{this.label}}</a></li>
+        {{else}}
+          <li class="breadcrumb-item active" aria-current="page">{{this.label}}</li>
+        {{/if}}
+      {{/each}}
+    </ol>
+  </div>
+</nav>
+{{/if}}

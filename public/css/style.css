@@ -1,0 +1,426 @@
+/* ==========================================================================
+   Mequick Solutions — Global Styles
+   Palette sourced from the logo: Primary Blue #1F95D3, Medical Red #EF3A3A,
+   White, Dark Gray #1F2937, Light Gray #F8FAFC. This file is the single
+   source of truth for color — every color used site-wide should trace back
+   to one of the CSS custom properties below (or an explicit override of the
+   matching Bootstrap variable), not a one-off hex value in a template.
+   ========================================================================== */
+
+:root {
+  /* Brand palette */
+  --qs-blue: #1f95d3;
+  --qs-blue-dark: #167aae; /* hover shade */
+  --qs-blue-darker: #125f87; /* active/pressed shade */
+  --qs-blue-tint: #e3f2fa; /* light background tint, e.g. icon chips */
+
+  --qs-red: #ef3a3a;
+  --qs-red-dark: #d62828; /* hover shade */
+  --qs-red-darker: #b71f1f; /* active/pressed shade */
+  --qs-red-tint: #fde8e8;
+
+  --qs-white: #ffffff;
+  --qs-dark: #1f2937;
+  --qs-light: #f8fafc;
+
+  /* Typography */
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Bootstrap variable overrides — keeps every Bootstrap utility class
+     (.btn-primary, .text-primary, .border-primary, badges, etc.) in sync
+     with the brand palette instead of Bootstrap's own default blue. */
+  --bs-primary: var(--qs-blue);
+  --bs-primary-rgb: 31, 149, 211;
+  --bs-primary-bg-subtle: var(--qs-blue-tint);
+  --bs-primary-border-subtle: #bfe2f2;
+  --bs-primary-text-emphasis: var(--qs-blue-darker);
+
+  --bs-danger: var(--qs-red);
+  --bs-danger-rgb: 239, 58, 58;
+  --bs-danger-bg-subtle: var(--qs-red-tint);
+  --bs-danger-border-subtle: #f8c6c6;
+  --bs-danger-text-emphasis: var(--qs-red-darker);
+
+  --bs-light: var(--qs-light);
+  --bs-dark: var(--qs-dark);
+  --bs-body-color: var(--qs-dark);
+  --bs-body-font-family: var(--font-body);
+  --bs-link-color: var(--qs-blue);
+  --bs-link-hover-color: var(--qs-blue-dark);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--qs-dark);
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.card-title,
+.display-4, .display-5, .display-6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+a {
+  transition: color 0.2s ease;
+}
+
+/* Explicit .btn-primary / .btn-outline-primary overrides — Bootstrap's
+   compiled CSS bakes hover/active button shades in as fixed hex values at
+   build time (derived from ITS default blue), so merely overriding
+   --bs-primary above recolors the base state but not hover/active. These
+   button-level custom properties are what Bootstrap's own .btn-primary
+   rule actually reads, so overriding them here keeps hover/active in sync
+   with our palette too. Same story for danger (red) buttons below. */
+.btn-primary {
+  --bs-btn-bg: var(--qs-blue);
+  --bs-btn-border-color: var(--qs-blue);
+  --bs-btn-hover-bg: var(--qs-blue-dark);
+  --bs-btn-hover-border-color: var(--qs-blue-dark);
+  --bs-btn-active-bg: var(--qs-blue-darker);
+  --bs-btn-active-border-color: var(--qs-blue-darker);
+  --bs-btn-disabled-bg: var(--qs-blue);
+  --bs-btn-disabled-border-color: var(--qs-blue);
+  --bs-btn-focus-shadow-rgb: 31, 149, 211;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--qs-blue);
+  --bs-btn-border-color: var(--qs-blue);
+  --bs-btn-hover-bg: var(--qs-blue);
+  --bs-btn-hover-border-color: var(--qs-blue);
+  --bs-btn-active-bg: var(--qs-blue-dark);
+  --bs-btn-active-border-color: var(--qs-blue-dark);
+  font-weight: 600;
+}
+
+.btn-danger {
+  --bs-btn-bg: var(--qs-red);
+  --bs-btn-border-color: var(--qs-red);
+  --bs-btn-hover-bg: var(--qs-red-dark);
+  --bs-btn-hover-border-color: var(--qs-red-dark);
+  --bs-btn-active-bg: var(--qs-red-darker);
+  --bs-btn-active-border-color: var(--qs-red-darker);
+  --bs-btn-disabled-bg: var(--qs-red);
+  --bs-btn-disabled-border-color: var(--qs-red);
+  --bs-btn-focus-shadow-rgb: 239, 58, 58;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.btn-outline-danger {
+  --bs-btn-color: var(--qs-red);
+  --bs-btn-border-color: var(--qs-red);
+  --bs-btn-hover-bg: var(--qs-red);
+  --bs-btn-hover-border-color: var(--qs-red);
+  --bs-btn-active-bg: var(--qs-red-dark);
+  --bs-btn-active-border-color: var(--qs-red-dark);
+  font-weight: 600;
+}
+
+.text-primary { color: var(--qs-blue) !important; }
+.text-danger { color: var(--qs-red) !important; }
+
+/* ── Topbar & Navbar ─────────────────────────────────────────────────── */
+
+.topbar {
+  background-color: var(--qs-dark);
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500;
+  color: var(--qs-dark);
+  padding: 0.5rem 0.9rem;
+}
+
+/* Round badge treatment for the wordmark logo — object-fit: contain keeps
+   the whole logo visible (no cropped letters), the circular frame just
+   clips the image's own square corners, which are empty background. */
+.navbar-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: var(--qs-light);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 3px;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--qs-blue);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+
+.hero-section {
+  background: linear-gradient(135deg, var(--qs-dark) 0%, var(--qs-blue-darker) 45%, var(--qs-blue) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.min-vh-50 {
+  min-height: 50vh;
+}
+
+/* ── Category Cards ───────────────────────────────────────────────────── */
+
+.category-card {
+  border-radius: 0.75rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 2rem rgba(31, 149, 211, 0.18) !important;
+}
+
+.category-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--qs-blue-tint);
+  color: var(--qs-blue);
+  font-size: 1.75rem;
+}
+
+/* ── Why Choose Us ───────────────────────────────────────────────────── */
+
+.why-card {
+  border-radius: 0.75rem;
+  background: var(--qs-white);
+  transition: transform 0.25s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Red used as a deliberate accent here (not blue) — gives the palette some
+   rhythm instead of an all-blue page, and doubles nicely as a "medical
+   cross" association for a healthcare brand. */
+.why-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--qs-red-tint);
+  color: var(--qs-red);
+  font-size: 1.75rem;
+}
+
+/* ── Brands ───────────────────────────────────────────────────────────── */
+
+.brand-placeholder {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── CTA ──────────────────────────────────────────────────────────────── */
+
+.cta-section {
+  background: linear-gradient(135deg, var(--qs-dark) 0%, var(--qs-blue-darker) 100%);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+
+.footer-links a {
+  color: var(--qs-blue);
+  text-decoration: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a:hover {
+  color: var(--qs-white);
+}
+
+.footer-social-link {
+  color: var(--qs-blue);
+}
+
+.footer-social-link:hover {
+  color: var(--qs-white);
+}
+
+.footer-main {
+  background-color: var(--qs-dark);
+}
+
+/* ── WhatsApp Floating Action Button ─────────────────────────────────── */
+/* Intentionally kept as WhatsApp's own brand green rather than the site
+   palette — it's a widely-recognized third-party affordance (people expect
+   a green WhatsApp button), not a brand color choice. */
+
+.whatsapp-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.25);
+  z-index: 1030;
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-fab:hover {
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* ── Error pages ──────────────────────────────────────────────────────── */
+
+.display-1 {
+  opacity: 0.85;
+}
+
+/* ── Product Cards ────────────────────────────────────────────────────── */
+
+.product-card {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(31, 149, 211, 0.15) !important;
+}
+
+.product-card-img-wrap,
+.product-card-img-placeholder {
+  height: 200px;
+  background: var(--qs-light);
+}
+
+.product-card .card-img-top {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.product-card-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+/* Lifts the View Details / Request Quote buttons above the card's
+   stretched-link overlay so they stay independently clickable — without
+   this, the stretched-link (on the card title) would swallow every click
+   on the card, including these buttons. */
+.product-card-actions {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Filter Sidebar ───────────────────────────────────────────────────── */
+
+.filter-sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+/* ── Category List Cards (Categories page) ───────────────────────────── */
+
+.category-list-card {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-list-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(31, 149, 211, 0.15) !important;
+}
+
+.category-list-img,
+.category-list-img-placeholder {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  background: var(--qs-light);
+}
+
+.category-list-img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Product Detail Gallery ───────────────────────────────────────────── */
+
+.product-gallery-img {
+  height: 420px;
+  object-fit: cover;
+}
+
+.product-gallery-placeholder {
+  height: 420px;
+  background: var(--qs-light);
+}
+
+/* ── Admin ────────────────────────────────────────────────────────────── */
+
+.admin-sidebar {
+  min-height: calc(100vh - 76px);
+  background-color: var(--qs-dark) !important;
+}
+
+.admin-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+.admin-image-preview {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+.stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}

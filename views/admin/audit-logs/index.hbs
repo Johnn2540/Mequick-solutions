@@ -1,0 +1,49 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <form method="GET" action="/admin/audit-logs" class="d-flex gap-2">
+    <select name="action" class="form-select" onchange="this.form.submit()">
+      <option value="">All Actions</option>
+      {{#each actionOptions}}
+        <option value="{{this}}" {{#eq this ../action}}selected{{/eq}}>{{this}}</option>
+      {{/each}}
+    </select>
+  </form>
+  <span class="text-muted small">{{pagination.totalCount}} entries</span>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>When</th>
+          <th>User</th>
+          <th>Action</th>
+          <th>Description</th>
+          <th>IP Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each logs}}
+          <tr>
+            <td class="small text-muted text-nowrap">{{this.createdAt}}</td>
+            <td>
+              {{#if this.user.name}}
+                {{this.user.name}}
+                <div class="small text-muted">{{this.user.email}}</div>
+              {{else}}
+                <span class="text-muted">System / Unknown</span>
+              {{/if}}
+            </td>
+            <td><span class="badge text-bg-{{auditBadgeClass this.action}}">{{this.action}}</span></td>
+            <td>{{this.description}}</td>
+            <td class="small text-muted">{{this.ipAddress}}</td>
+          </tr>
+        {{else}}
+          <tr><td colspan="5" class="text-center text-muted py-4">No activity recorded yet.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{> pagination baseUrl="/admin/audit-logs" filters=(hash action=action)}}

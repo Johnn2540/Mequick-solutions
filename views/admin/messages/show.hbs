@@ -1,0 +1,31 @@
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white">
+        <h6 class="fw-bold mb-0">{{#if message.subject}}{{message.subject}}{{else}}(No subject){{/if}}</h6>
+      </div>
+      <div class="card-body">
+        <p style="white-space: pre-line;">{{message.message}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">From</h6></div>
+      <div class="card-body">
+        <p class="mb-1"><strong>{{message.name}}</strong></p>
+        <p class="mb-1"><i class="bi bi-envelope me-1"></i>{{message.email}}</p>
+        {{#if message.phone}}<p class="mb-1"><i class="bi bi-telephone me-1"></i>{{message.phone}}</p>{{/if}}
+        <p class="text-muted small mb-0">Received {{message.createdAt}}</p>
+      </div>
+    </div>
+
+    <form method="POST" action="/admin/messages/{{message.id}}/toggle-read">
+      {{> csrf}}
+      <button type="submit" class="btn btn-outline-secondary w-100">
+        {{#if message.isRead}}Mark as Unread{{else}}Mark as Read{{/if}}
+      </button>
+    </form>
+  </div>
+</div>

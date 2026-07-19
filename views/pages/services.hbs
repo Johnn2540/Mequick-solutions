@@ -1,0 +1,44 @@
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">What We Do</h6>
+      <h1 class="fw-bold">Our Services</h1>
+      <p class="text-muted col-lg-7 mx-auto">
+        Beyond supplying equipment, {{company.name}} supports your facility end-to-end — from consultation
+        and installation to training and ongoing maintenance.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      {{#each services}}
+        <div class="col-lg-4 col-md-6">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+              <div class="category-icon mb-3">
+                <i class="bi {{this.icon}}"></i>
+              </div>
+              <h5 class="fw-semibold text-primary mb-2">{{this.title}}</h5>
+              <p class="text-muted mb-0">{{this.text}}</p>
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="cta-section py-5 text-white text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Need a Service We Haven't Listed?</h2>
+    <p class="lead mb-4 text-white-50">Get in touch and our team will help you find the right solution for your facility.</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="{{waLink company.whatsapp}}" target="_blank" rel="noopener noreferrer" class="btn btn-success btn-lg px-4">
+        <i class="bi bi-whatsapp me-2"></i>Chat on WhatsApp
+      </a>
+      <a href="/request-quote" class="btn btn-danger btn-lg px-4">
+        <i class="bi bi-file-earmark-text me-2"></i>Request a Quote
+      </a>
+    </div>
+  </div>
+</section>

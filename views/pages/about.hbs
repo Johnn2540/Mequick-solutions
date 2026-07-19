@@ -1,0 +1,98 @@
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h1 class="fw-bold">About {{company.name}}</h1>
+      <p class="text-muted col-lg-7 mx-auto">
+        A trusted supplier of high-quality medical equipment, laboratory products, hospital furniture, and
+        healthcare consumables across Kenya.
+      </p>
+    </div>
+
+    <div class="row g-5 align-items-center mb-5 pb-4">
+      <div class="col-lg-6">
+        <h6 class="text-uppercase text-primary fw-semibold">Our Story</h6>
+        <h2 class="fw-bold mb-3">Built to Serve Kenya's Healthcare Sector</h2>
+        <p class="text-muted">
+          {{company.name}} was founded to close the gap between hospitals, clinics, and laboratories and the
+          reliable, genuine medical equipment they need to deliver quality care. From our base in Nairobi, we
+          supply theatre and ICU equipment, laboratory instruments, dental and imaging equipment, surgical
+          instruments, hospital furniture, and a full range of consumables and PPE to healthcare facilities
+          across the country.
+        </p>
+        <p class="text-muted mb-0">
+          We work directly with trusted manufacturers and distributors to ensure every product we supply meets
+          the standards healthcare providers depend on — backed by responsive support and nationwide delivery.
+        </p>
+      </div>
+      <div class="col-lg-6">
+        <div class="row g-4">
+          <div class="col-6">
+            <div class="card border-0 shadow-sm text-center p-4 h-100">
+              <i class="bi bi-bullseye text-primary fs-1 mb-2"></i>
+              <h6 class="fw-bold">Our Mission</h6>
+              <p class="small text-muted mb-0">
+                To make quality medical equipment accessible and affordable for healthcare providers across Kenya.
+              </p>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card border-0 shadow-sm text-center p-4 h-100">
+              <i class="bi bi-eye-fill text-primary fs-1 mb-2"></i>
+              <h6 class="fw-bold">Our Vision</h6>
+              <p class="small text-muted mb-0">
+                To be East Africa's most trusted partner for medical equipment and healthcare supplies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="py-5 bg-light rounded-4 mb-5">
+      <div class="container">
+        <div class="text-center mb-5">
+          <h6 class="text-uppercase text-primary fw-semibold">Why Choose Us</h6>
+          <h2 class="fw-bold">Why Choose {{company.name}}</h2>
+        </div>
+        <div class="row g-4">
+          {{#each whyChooseUs}}
+            <div class="col-lg-3 col-md-6">
+              <div class="text-center p-4 why-card h-100">
+                <div class="why-icon mb-3"><i class="bi {{this.icon}}"></i></div>
+                <h6 class="fw-semibold">{{this.title}}</h6>
+                <p class="small text-muted mb-0">{{this.text}}</p>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    <!-- Certifications (placeholder) -->
+    <div class="text-center mb-5 pb-4">
+      <h6 class="text-uppercase text-primary fw-semibold">Certifications</h6>
+      <h2 class="fw-bold mb-5">Quality &amp; Compliance</h2>
+      <div class="row g-4 justify-content-center">
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Certified</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Certified</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Certified</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Certified</div></div>
+      </div>
+    </div>
+
+    <!-- Trusted Brands (placeholder) -->
+    <div class="text-center">
+      <h6 class="text-uppercase text-primary fw-semibold">Trusted By</h6>
+      <h2 class="fw-bold mb-5">Brands We Work With</h2>
+      <div class="row g-4 justify-content-center">
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+        <div class="col-4 col-md-2"><div class="brand-placeholder">Brand</div></div>
+      </div>
+    </div>
+  </div>
+</section>

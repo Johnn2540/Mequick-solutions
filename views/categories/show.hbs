@@ -1,0 +1,26 @@
+<section class="py-5">
+  <div class="container">
+    <div class="mb-5">
+      <h1 class="fw-bold">{{category.name}}</h1>
+      {{#if category.description}}
+        <p class="text-muted col-lg-8">{{category.description}}</p>
+      {{/if}}
+      <span class="text-muted small">{{pagination.totalCount}} product(s) in this category</span>
+    </div>
+
+    {{#if products.length}}
+      <div class="row g-4">
+        {{#each products}}
+          {{> product_card}}
+        {{/each}}
+      </div>
+      {{> pagination baseUrl=(concat "/categories/" category.slug)}}
+    {{else}}
+      <div class="text-center py-5">
+        <i class="bi bi-box-seam display-4 text-muted"></i>
+        <p class="text-muted mt-3">No products in this category yet. Check back soon.</p>
+        <a href="/products" class="btn btn-outline-primary">Browse All Products</a>
+      </div>
+    {{/if}}
+  </div>
+</section>

@@ -1,0 +1,43 @@
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Message</h6></div>
+      <div class="card-body">
+        {{#if enquiry.product.name}}
+          <p class="mb-3">
+            <strong>Regarding:</strong>
+            <a href="/products/{{enquiry.product.slug}}" target="_blank" rel="noopener noreferrer">{{enquiry.product.name}}</a>
+          </p>
+        {{/if}}
+        <p style="white-space: pre-line;">{{enquiry.message}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Contact</h6></div>
+      <div class="card-body">
+        <p class="mb-1"><strong>{{enquiry.name}}</strong></p>
+        <p class="mb-1"><i class="bi bi-telephone me-1"></i>{{enquiry.phone}}</p>
+        {{#if enquiry.email}}<p class="mb-1"><i class="bi bi-envelope me-1"></i>{{enquiry.email}}</p>{{/if}}
+        <p class="text-muted small mb-0">Submitted {{enquiry.createdAt}}</p>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Status</h6></div>
+      <div class="card-body">
+        <form method="POST" action="/admin/enquiries/{{enquiry.id}}/status">
+          {{> csrf}}
+          <select name="status" class="form-select mb-3">
+            {{#each statusOptions}}
+              <option value="{{this}}" {{#eq this ../enquiry.status}}selected{{/eq}}>{{this}}</option>
+            {{/each}}
+          </select>
+          <button type="submit" class="btn btn-primary w-100">Update Status</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

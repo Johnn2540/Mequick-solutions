@@ -1,0 +1,5 @@
+{{#each products}}
+  <option value="{{this.id}}" {{#eq this.id ../selected}}selected{{/eq}}>
+    {{this.name}}{{#if this.categoryName}} — {{this.categoryName}}{{/if}}
+  </option>
+{{/each}}

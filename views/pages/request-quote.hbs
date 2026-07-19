@@ -1,0 +1,151 @@
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Let's Get You Equipped</h6>
+      <h1 class="fw-bold">Request a Quote</h1>
+      <p class="text-muted col-lg-7 mx-auto">
+        Tell us what you need and our team will send you a competitive quote — no obligation.
+      </p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+
+            {{#if sent}}
+              <div class="alert alert-success" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>Thank you — your quote request has been received. We'll be in touch shortly.
+              </div>
+            {{/if}}
+
+            {{#if csrfError}}
+              <div class="alert alert-warning" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>This form took too long to submit and expired. Please try again.
+              </div>
+            {{/if}}
+
+            {{#if generalErrors.length}}
+              <div class="alert alert-danger" role="alert">
+                <ul class="mb-0 ps-3">
+                  {{#each generalErrors}}
+                    <li>{{this.msg}}</li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
+
+            <form method="POST" action="/request-quote" novalidate id="quote-form">
+              {{> csrf}}
+
+              <h6 class="fw-bold mb-3">Your Details</h6>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="customerName" class="form-label">Full Name *</label>
+                  <input type="text" id="customerName" name="customerName" class="form-control {{#if (fieldError errors "customerName")}}is-invalid{{/if}}" value="{{formData.customerName}}" required>
+                  {{#if (fieldError errors "customerName")}}<div class="invalid-feedback">{{fieldError errors "customerName"}}</div>{{/if}}
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Phone Number *</label>
+                  <input type="tel" id="phone" name="phone" class="form-control {{#if (fieldError errors "phone")}}is-invalid{{/if}}" value="{{formData.phone}}" required>
+                  {{#if (fieldError errors "phone")}}<div class="invalid-feedback">{{fieldError errors "phone"}}</div>{{/if}}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" id="email" name="email" class="form-control {{#if (fieldError errors "email")}}is-invalid{{/if}}" value="{{formData.email}}">
+                  {{#if (fieldError errors "email")}}<div class="invalid-feedback">{{fieldError errors "email"}}</div>{{/if}}
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="hospital" class="form-label">Hospital / Facility</label>
+                  <input type="text" id="hospital" name="hospital" class="form-control {{#if (fieldError errors "hospital")}}is-invalid{{/if}}" value="{{formData.hospital}}">
+                  {{#if (fieldError errors "hospital")}}<div class="invalid-feedback">{{fieldError errors "hospital"}}</div>{{/if}}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="company" class="form-label">Company (optional)</label>
+                <input type="text" id="company" name="company" class="form-control {{#if (fieldError errors "company")}}is-invalid{{/if}}" value="{{formData.company}}">
+                {{#if (fieldError errors "company")}}<div class="invalid-feedback">{{fieldError errors "company"}}</div>{{/if}}
+              </div>
+
+              <hr class="my-4">
+
+              <h6 class="fw-bold mb-3">Products Needed</h6>
+              <div id="quote-items">
+                {{#each items}}
+                  <div class="row g-2 align-items-start quote-item-row mb-3" data-index="{{@index}}">
+                    <div class="col-md-6">
+                      <select name="items[{{@index}}][productId]" class="form-select product-select" required>
+                        <option value="">Select a product...</option>
+                        {{> productOptions products=../products selected=this.productId}}
+                        <option value="custom" {{#eq this.productId "custom"}}selected{{/eq}}>Other / Not Listed</option>
+                      </select>
+                      <input
+                        type="text"
+                        name="items[{{@index}}][customName]"
+                        class="form-control custom-name-input mt-2{{#unless (eqVal this.productId "custom")}} d-none{{/unless}}"
+                        placeholder="Type the product name"
+                        value="{{this.customName}}"
+                      >
+                    </div>
+                    <div class="col-md-3">
+                      <input type="number" name="items[{{@index}}][quantity]" class="form-control" min="1" value="{{#if this.quantity}}{{this.quantity}}{{else}}1{{/if}}" required placeholder="Qty">
+                    </div>
+                    <div class="col-md-3">
+                      <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn">
+                        <i class="bi bi-trash me-1"></i>Remove
+                      </button>
+                    </div>
+                  </div>
+                {{/each}}
+              </div>
+
+              <button type="button" id="add-item-btn" class="btn btn-outline-primary btn-sm mb-4">
+                <i class="bi bi-plus-lg me-1"></i>Add Another Product
+              </button>
+
+              <div class="mb-4">
+                <label for="notes" class="form-label">Additional Notes</label>
+                <textarea id="notes" name="notes" rows="3" class="form-control {{#if (fieldError errors "notes")}}is-invalid{{/if}}">{{formData.notes}}</textarea>
+                {{#if (fieldError errors "notes")}}<div class="invalid-feedback">{{fieldError errors "notes"}}</div>{{/if}}
+              </div>
+
+              <button type="submit" class="btn btn-danger px-4">
+                <i class="bi bi-file-earmark-text me-2"></i>Submit Quote Request
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Template for JS-cloned product rows. Rendered outside the <form> flow via
+     a <template> tag so its inert markup is never submitted or matched by
+     required-field validation until cloned into #quote-items. -->
+<template id="quote-item-template">
+  <div class="row g-2 align-items-start quote-item-row mb-3">
+    <div class="col-md-6">
+      <select name="items[__INDEX__][productId]" class="form-select product-select" required>
+        <option value="">Select a product...</option>
+        {{> productOptions products=products selected=""}}
+        <option value="custom">Other / Not Listed</option>
+      </select>
+      <input type="text" name="items[__INDEX__][customName]" class="form-control custom-name-input mt-2 d-none" placeholder="Type the product name">
+    </div>
+    <div class="col-md-3">
+      <input type="number" name="items[__INDEX__][quantity]" class="form-control" min="1" value="1" required placeholder="Qty">
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn">
+        <i class="bi bi-trash me-1"></i>Remove
+      </button>
+    </div>
+  </div>
+</template>
+
+<script src="/js/quote-form.js"></script>

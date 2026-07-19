@@ -1,0 +1,118 @@
+<form method="POST" action="{{formAction}}" enctype="multipart/form-data">
+  {{> csrf}}
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3">Product Details</h6>
+
+          <div class="mb-3">
+            <label for="name" class="form-label">Product Name *</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{product.name}}" required>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="sku" class="form-label">SKU</label>
+              <input type="text" id="sku" name="sku" class="form-control" value="{{product.sku}}">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="price" class="form-label">Price (KES, optional)</label>
+              <input type="number" id="price" name="price" class="form-control" step="0.01" min="0" value="{{product.price}}">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="4">{{product.description}}</textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="specifications" class="form-label">Specifications</label>
+            <textarea id="specifications" name="specifications" class="form-control" rows="4" placeholder="One spec per line">{{product.specifications}}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3">Images</h6>
+
+          {{#if product.images.length}}
+            <div class="d-flex flex-wrap gap-3 mb-3">
+              {{#each product.images}}
+                <div class="text-center">
+                  <img src="{{this.url}}" class="admin-image-preview mb-1" alt="Product image">
+                  <div class="form-check small">
+                    <input class="form-check-input" type="checkbox" name="removeImageIds" value="{{this.id}}" id="rm-{{this.id}}">
+                    <label class="form-check-label" for="rm-{{this.id}}">Remove</label>
+                  </div>
+                  {{#unless this.isPrimary}}
+                    <div>
+                      <button type="submit" formaction="/admin/products/{{../product.id}}/images/{{this.id}}/primary" formnovalidate class="btn btn-link btn-sm p-0">
+                        Set Primary
+                      </button>
+                    </div>
+                  {{else}}
+                    <span class="badge text-bg-primary">Primary</span>
+                  {{/unless}}
+                </div>
+              {{/each}}
+            </div>
+          {{/if}}
+
+          <label for="images" class="form-label">
+            {{#if product}}Add More Images{{else}}Upload Images{{/if}}
+          </label>
+          <input type="file" id="images" name="images" class="form-control" accept="image/png,image/jpeg,image/webp,image/avif" multiple>
+          <div class="form-text">Up to 8 images, 5MB each. JPEG, PNG, WEBP, or AVIF.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary px-4">{{#if product}}Update Product{{else}}Create Product{{/if}}</button>
+      <a href="/admin/products" class="btn btn-outline-secondary px-4">Cancel</a>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <h6 class="fw-bold mb-3">Organization</h6>
+
+          <div class="mb-3">
+            <label for="categoryId" class="form-label">Category *</label>
+            <select id="categoryId" name="categoryId" class="form-select" required>
+              <option value="">Select category</option>
+              {{#each categories}}
+                <option value="{{this.id}}" {{#eq this.id ../product.categoryId}}selected{{/eq}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="brandId" class="form-label">Brand</label>
+            <select id="brandId" name="brandId" class="form-select">
+              <option value="">None</option>
+              {{#each brands}}
+                <option value="{{this.id}}" {{#eq this.id ../product.brandId}}selected{{/eq}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="availability" class="form-label">Availability *</label>
+            <select id="availability" name="availability" class="form-select" required>
+              {{#each availabilityOptions}}
+                <option value="{{this.value}}" {{#eq this.value ../product.availability}}selected{{/eq}}>{{this.label}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="featured" name="featured" {{#if product.featured}}checked{{/if}}>
+            <label class="form-check-label" for="featured">Feature on homepage</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,17 @@
+node_modules/
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+*.log
+
+# Uploads (local fallback only — production images live on Cloudinary)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

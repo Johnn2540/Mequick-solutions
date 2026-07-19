@@ -1,0 +1,73 @@
+<section class="py-5">
+  <div class="container">
+    <div class="row">
+      <!-- Filters Sidebar -->
+      <div class="col-lg-3 mb-4">
+        <form method="GET" action="/products" class="filter-sidebar p-4 bg-light rounded-3">
+          <h6 class="fw-bold mb-3"><i class="bi bi-funnel me-2"></i>Filter Products</h6>
+
+          <div class="mb-3">
+            <label for="q" class="form-label small fw-semibold">Search</label>
+            <input type="text" id="q" name="q" class="form-control" placeholder="Search products..." value="{{filters.q}}">
+          </div>
+
+          <div class="mb-3">
+            <label for="category" class="form-label small fw-semibold">Category</label>
+            <select id="category" name="category" class="form-select">
+              <option value="">All Categories</option>
+              {{#each categories}}
+                <option value="{{this.slug}}" {{#eq this.slug ../filters.category}}selected{{/eq}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="brand" class="form-label small fw-semibold">Brand</label>
+            <select id="brand" name="brand" class="form-select">
+              <option value="">All Brands</option>
+              {{#each brands}}
+                <option value="{{this.slug}}" {{#eq this.slug ../filters.brand}}selected{{/eq}}>{{this.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="availability" class="form-label small fw-semibold">Availability</label>
+            <select id="availability" name="availability" class="form-select">
+              <option value="">Any Availability</option>
+              {{#each availabilityOptions}}
+                <option value="{{this.value}}" {{#eq this.value ../filters.availability}}selected{{/eq}}>{{this.label}}</option>
+              {{/each}}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+          {{#if filters.q}}<a href="/products" class="btn btn-link w-100 mt-1">Clear Filters</a>{{/if}}
+        </form>
+      </div>
+
+      <!-- Product Grid -->
+      <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="fw-bold mb-0">Products</h2>
+          <span class="text-muted small">{{pagination.totalCount}} result(s)</span>
+        </div>
+
+        {{#if products.length}}
+          <div class="row g-4">
+            {{#each products}}
+              {{> product_card}}
+            {{/each}}
+          </div>
+          {{> pagination baseUrl="/products" filters=filters}}
+        {{else}}
+          <div class="text-center py-5">
+            <i class="bi bi-search display-4 text-muted"></i>
+            <p class="text-muted mt-3">No products match your filters. Try broadening your search.</p>
+            <a href="/products" class="btn btn-outline-primary">Reset Filters</a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</section>

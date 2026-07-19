@@ -1,0 +1,23 @@
+{{#if pagination}}
+  {{#gt pagination.totalPages 1}}
+    <nav aria-label="Page navigation" class="mt-5">
+      <ul class="pagination justify-content-center">
+        <li class="page-item {{#unless pagination.hasPrev}}disabled{{/unless}}">
+          <a class="page-link" href="{{paginationUrl baseUrl filters pagination.prevPage}}">
+            <i class="bi bi-chevron-left"></i>
+          </a>
+        </li>
+        {{#each pagination.pages}}
+          <li class="page-item {{#if this.isCurrent}}active{{/if}}">
+            <a class="page-link" href="{{paginationUrl ../baseUrl ../filters this.number}}">{{this.number}}</a>
+          </li>
+        {{/each}}
+        <li class="page-item {{#unless pagination.hasNext}}disabled{{/unless}}">
+          <a class="page-link" href="{{paginationUrl baseUrl filters pagination.nextPage}}">
+            <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  {{/gt}}
+{{/if}}

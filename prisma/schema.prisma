@@ -1,0 +1,521 @@
+// Prisma schema for Mequick Solutions — Medical Equipment Supplier
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  // "native" covers local dev (Windows/Mac/Linux, whatever this machine is).
+  // "rhel-openssl-3.0.x" is added explicitly for Vercel: its Node.js Lambda
+  // runtime doesn't always match what `prisma generate` auto-detects during
+  // the build step, which is the most common cause of a Prisma deployment
+  // failing with "could not locate the Query Engine for runtime ...". This
+  // bundles both engines so the client works in either environment.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  // Pooled connection (e.g. Neon/Supabase pgbouncer endpoint) — used at
+  // runtime by every serverless invocation.
+  url       = env("DATABASE_URL")
+  // Direct, unpooled connection — used only for migrations, which need a
+  // session-level connection that a transaction pooler can't provide.
+  directUrl = env("DIRECT_URL")
+}
+
+// ── Enums ────────────────────────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+  // Added for the Super Admin module expansion. EDITOR is kept rather than
+  // renamed/removed — there is a real, live user on that role and role
+  // values can't be silently repointed without a deliberate data change.
+  SALES_STAFF
+  INVENTORY_MANAGER
+  CONTENT_MANAGER
+}
+
+enum Availability {
+  IN_STOCK
+  OUT_OF_STOCK
+  PREORDER
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+}
+
+// Replaces the original 4-value set (PENDING/REVIEWED/RESPONDED/CLOSED).
+// Safe to do as a hard replacement, not an additive extension, because
+// quote_requests had zero live rows at migration time — see the migration's
+// apply script, which re-checks and aborts if that's no longer true.
+enum QuoteStatus {
+  NEW
+  PENDING
+  QUOTATION_SENT
+  APPROVED
+  DECLINED
+  CLOSED
+}
+
+// ── Models ───────────────────────────────────────────────────────────
+
+model User {
+  id             String         @id @default(cuid())
+  name           String
+  email          String         @unique
+  passwordHash   String
+  role           Role           @default(ADMIN)
+  isActive       Boolean        @default(true)
+  lastLogin      DateTime?
+  // Cloudinary-hosted profile photo — not in the original field list, but
+  // required by the "upload profile photo" feature. publicId is kept
+  // alongside the URL so the old asset can be deleted on replacement.
+  avatarUrl      String?
+  avatarPublicId String?
+  loginHistory   LoginHistory[]
+  auditLogs      AuditLog[]
+
+  // Back-relations added for the Super Admin module expansion.
+  assignedQuotes QuoteRequest[]
+  notifications  Notification[]
+  inventoryLogs  InventoryLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// General activity trail across the admin panel — separate from
+// LoginHistory (which is specifically the per-user login/logout record
+// shown on the Profile page). Reviewable by Super Admins on an
+// Activity Logs screen. `action` is a free-form string rather than an
+// enum (see utils/auditActions.js for the canonical list) so new action
+// types don't require a migration.
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action      String
+  entityType  String?
+  entityId    String?
+  description String
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// One row per login attempt (success or failure) tied to a known user —
+// powers the "view login history" profile feature and basic audit trail.
+// Attempts against an unknown email aren't recorded here (there's no user
+// to attach them to); those are covered by the request logger + rate limiter.
+model LoginHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  success   Boolean
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("login_history")
+}
+
+model Category {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  image         String?
+  // Cloudinary public_id for `image` — without this there is no way to
+  // delete the asset when the category is deleted or its image replaced,
+  // so uploads silently accumulate (orphaned) in Cloudinary forever.
+  imagePublicId String?
+  description   String?
+  products      Product[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([slug])
+  @@map("categories")
+}
+
+model Brand {
+  id           String    @id @default(cuid())
+  name         String    @unique
+  slug         String    @unique
+  logo         String?
+  // Cloudinary public_id for `logo` — see Category.imagePublicId for why
+  // this is needed alongside the URL.
+  logoPublicId String?
+  products     Product[]
+  createdAt    DateTime  @default(now())
+
+  @@index([slug])
+  @@map("brands")
+}
+
+model Product {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String       @unique
+  sku            String?      @unique
+  description    String?
+  specifications String?
+  price          Decimal?     @db.Decimal(10, 2)
+  availability   Availability @default(IN_STOCK)
+  featured       Boolean      @default(false)
+
+  // Current on-hand stock. This is deliberately kept as the live, queryable
+  // "current state" on Product itself rather than a separate 1:1 Inventory
+  // table — a second table with the same cardinality as Product would just
+  // duplicate it. `InventoryLog` below is the actual new model: it's the
+  // append-only history of how stockQuantity got to its current value.
+  stockQuantity     Int @default(0)
+  // Per-product threshold for the "Low Stock" dashboard alert
+  // (stockQuantity <= lowStockThreshold). Defaults to 5 so existing
+  // products get a sane alert boundary with no admin action required.
+  lowStockThreshold Int @default(5)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  brandId String?
+  brand   Brand?  @relation(fields: [brandId], references: [id], onDelete: SetNull)
+
+  images        ProductImage[]
+  enquiries     Enquiry[]
+  quoteItems    QuoteRequestItem[]
+  inventoryLogs InventoryLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([brandId])
+  @@index([featured])
+  @@map("products")
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url       String
+  publicId  String? // Cloudinary public_id, used to delete the asset on removal
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_images")
+}
+
+// Direct "Enquire about this product" submissions (WhatsApp / on-site form)
+model Enquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String?
+  phone     String
+  productId String?
+  product   Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  message   String
+  status    EnquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+  @@map("enquiries")
+}
+
+// Multi-product "Request a Quote" submissions
+model QuoteRequest {
+  id           String             @id @default(cuid())
+  customerName String
+  hospital     String?
+  company      String?
+  phone        String
+  email        String?
+  notes        String?
+  status       QuoteStatus        @default(NEW)
+  items        QuoteRequestItem[]
+
+  // Links to the deduplicated Customer record (find-or-create by email/phone
+  // at submission time — see services/customer.service.js). Nullable and
+  // SetNull on delete: customerName/hospital/company/phone/email above stay
+  // as the point-in-time snapshot regardless of what happens to the
+  // Customer record later, same pattern QuoteRequestItem already uses for
+  // productName vs. Product.
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+
+  // Staff assignment ("assign quote to staff"). Nullable: unassigned by
+  // default. SetNull on delete: losing the assigned staff account should
+  // never take the quote request down with it.
+  assignedToId String?
+  assignedTo   User?   @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([customerId])
+  @@index([assignedToId])
+  @@map("quote_requests")
+}
+
+model QuoteRequestItem {
+  id             String       @id @default(cuid())
+  quoteRequestId String
+  quoteRequest   QuoteRequest @relation(fields: [quoteRequestId], references: [id], onDelete: Cascade)
+  productId      String?
+  product        Product?     @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productName    String // snapshot of the name at request time, survives product deletion
+  quantity       Int          @default(1)
+
+  @@index([quoteRequestId])
+  @@map("quote_request_items")
+}
+
+// General "Contact Us" form submissions
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("messages")
+}
+
+// Homepage hero banners, managed from the admin dashboard. Doubles as the
+// "Homepage Hero" content block in the Super Admin module's Website Content
+// section — isActive + order already give it carousel/hero-rotation
+// semantics, so no separate Hero model was added.
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  imageUrl  String
+  publicId  String?
+  ctaText   String?
+  ctaLink   String?
+  isActive  Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("banners")
+}
+
+// ── Super Admin module additions ────────────────────────────────────
+//
+// Role & Permission Management is intentionally NOT a pair of DB tables
+// here — Role stays the enum above, and permissions are a static, code-level
+// matrix (utils/permissions.js, added in a later milestone) keyed by that
+// enum. A fully dynamic Role/Permission/RolePermission schema was the other
+// option on the table; a fixed 6-role matrix was chosen instead to stay
+// additive and avoid a new role-editor admin UI that wasn't otherwise asked
+// for. Contact Details also isn't its own model — it's already covered by
+// SystemSetting's email/phone/whatsapp/address fields below.
+
+// Deduplicated customer record, separate from the point-in-time snapshot
+// fields still kept on QuoteRequest itself (see the comment there for why
+// both exist side by side). Populated by a find-or-create lookup (by email,
+// falling back to phone) when a quote request comes in — see
+// services/customer.service.js in a later milestone.
+model Customer {
+  id       String  @id @default(cuid())
+  name     String
+  email    String?
+  phone    String?
+  hospital String?
+  company  String?
+  address  String?
+
+  quoteRequests QuoteRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Not @unique: a shared reception line/generic email between two distinct
+  // real customers should never make an INSERT fail outright — dedup is a
+  // best-effort service-layer lookup, not a hard DB constraint.
+  @@index([email])
+  @@index([phone])
+  @@map("customers")
+}
+
+// Append-only history of stock changes — this is what makes "Current
+// Stock" (Product.stockQuantity, the live value) auditable. One row per
+// change: a restock, a sale/allocation, or a manual correction.
+model InventoryLog {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  // Who made the change. Nullable + SetNull: a deleted staff account
+  // shouldn't erase the historical record of what they did.
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  // Free-form string rather than an enum (e.g. "RESTOCK", "SALE",
+  // "ADJUSTMENT", "CORRECTION") — same convention AuditLog.action already
+  // uses here, so new movement types don't require a migration.
+  changeType     String
+  // Signed delta (+50 restock, -3 sale) — quantityAfter is the resulting
+  // stockQuantity, stored redundantly so history renders correctly even if
+  // rows are viewed out of order.
+  quantityChange Int
+  quantityAfter  Int
+  note           String?
+
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("inventory_logs")
+}
+
+// In-app notifications (quote alerts, inventory alerts, system messages).
+// Email delivery for the same events is a separate concern (services/mailer
+// in a later milestone) — this table is only the in-app/bell-icon feed.
+model Notification {
+  id String @id @default(cuid())
+
+  // Null = broadcast to every admin user (e.g. a system-wide notice).
+  // Cascade on delete (not SetNull): a deleted user's personal notification
+  // feed should be deleted with them, not silently reassigned to "everyone".
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Free-form string, same convention as AuditLog.action / InventoryLog.changeType.
+  // Expected values for now: "QUOTE_ALERT", "INVENTORY_ALERT", "SYSTEM".
+  type    String
+  title   String
+  message String
+  link    String?
+  isRead  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+// Singleton row (id is always the literal "main") holding the editable
+// System Settings screen's fields. Replaces the env-var-only company
+// info currently read via res.locals.company in app.js — env vars remain
+// the fallback/seed values, this table is what the admin UI actually edits.
+//
+// SMTP credentials live here rather than in .env deliberately: the whole
+// point of this screen is Super-Admin-editable settings without a
+// redeploy, and access is already gated by the Settings permission
+// (Super Admin only in the default matrix). Every write here goes through
+// AuditLog like any other admin action, so there's no separate
+// "updatedBy" column needed on this table itself.
+model SystemSetting {
+  id String @id @default("main")
+
+  companyName  String  @default("Mequick Solutions")
+  logoUrl      String?
+  logoPublicId String?
+  email        String?
+  phone        String?
+  whatsapp     String?
+  address      String?
+  currency     String  @default("KES")
+  timezone     String  @default("Africa/Nairobi")
+
+  smtpHost      String?
+  smtpPort      Int?
+  smtpUser      String?
+  smtpPassword  String?
+  smtpFromEmail String?
+  smtpFromName  String?
+
+  seoTitle          String?
+  seoDescription    String?
+  googleAnalyticsId String?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+// Singleton row (id is always "main") for the About Us page's editable
+// content — replaces the hardcoded story/mission/vision copy currently in
+// views/pages/about.hbs.
+model AboutContent {
+  id String @id @default("main")
+
+  heading       String?
+  storyText     String?
+  missionText   String?
+  visionText    String?
+  imageUrl      String?
+  imagePublicId String?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("about_content")
+}
+
+model Testimonial {
+  id            String  @id @default(cuid())
+  customerName  String
+  customerTitle String?
+  photoUrl      String?
+  photoPublicId String?
+  quote         String
+  rating        Int?
+  isActive      Boolean @default(true)
+  order         Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("testimonials")
+}
+
+// Partner/trusted-brand logos — replaces the hardcoded "Brand" placeholder
+// divs currently on the homepage/About page.
+model Partner {
+  id           String  @id @default(cuid())
+  name         String
+  logoUrl      String
+  logoPublicId String?
+  websiteUrl   String?
+  isActive     Boolean @default(true)
+  order        Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model Faq {
+  id       String  @id @default(cuid())
+  question String
+  answer   String
+  category String?
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faqs")
+}

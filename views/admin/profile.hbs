@@ -1,0 +1,124 @@
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body text-center">
+        {{#if profileUser.avatarUrl}}
+          <img src="{{profileUser.avatarUrl}}" class="rounded-circle mb-3" alt="{{profileUser.name}}" style="width: 96px; height: 96px; object-fit: cover;">
+        {{else}}
+          <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 96px; height: 96px; font-size: 2rem;">
+            <i class="bi bi-person"></i>
+          </div>
+        {{/if}}
+        <h6 class="fw-bold mb-0">{{profileUser.name}}</h6>
+        <p class="text-muted small mb-2">{{profileUser.email}}</p>
+        <span class="badge text-bg-primary">{{profileUser.role}}</span>
+
+        <form method="POST" action="/admin/profile/photo" enctype="multipart/form-data" class="mt-3 text-start">
+          {{> csrf}}
+          <label for="photo" class="form-label small">Update Photo</label>
+          <input type="file" id="photo" name="photo" class="form-control form-control-sm mb-2" accept="image/png,image/jpeg,image/webp,image/avif">
+          <button type="submit" class="btn btn-sm btn-outline-primary w-100">Upload</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Account Information</h6></div>
+      <div class="card-body">
+        <dl class="row mb-0 small">
+          <dt class="col-5 text-muted fw-normal">Role</dt>
+          <dd class="col-7 mb-2">{{profileUser.role}}</dd>
+          <dt class="col-5 text-muted fw-normal">Status</dt>
+          <dd class="col-7 mb-2">
+            {{#if profileUser.isActive}}
+              <span class="badge text-bg-success">Active</span>
+            {{else}}
+              <span class="badge text-bg-secondary">Inactive</span>
+            {{/if}}
+          </dd>
+          <dt class="col-5 text-muted fw-normal">Last Login</dt>
+          <dd class="col-7 mb-2">{{#if profileUser.lastLogin}}{{profileUser.lastLogin}}{{else}}Never{{/if}}</dd>
+          <dt class="col-5 text-muted fw-normal">Member Since</dt>
+          <dd class="col-7 mb-0">{{profileUser.createdAt}}</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Profile Information</h6></div>
+      <div class="card-body">
+        <form method="POST" action="/admin/profile">
+          {{> csrf}}
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{profileUser.name}}" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" value="{{profileUser.email}}" required>
+          </div>
+          <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Change Password</h6></div>
+      <div class="card-body">
+        <form method="POST" action="/admin/profile/password">
+          {{> csrf}}
+          <div class="mb-3">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <input type="password" id="currentPassword" name="currentPassword" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+            <div class="form-text">At least 8 characters, with uppercase, lowercase, a number, and a special character.</div>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary px-4">Change Password</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Login History</h6></div>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Date</th>
+              <th>Status</th>
+              <th>IP Address</th>
+              <th>Device</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each loginHistory}}
+              <tr>
+                <td class="small">{{this.createdAt}}</td>
+                <td>
+                  {{#if this.success}}
+                    <span class="badge text-bg-success">Success</span>
+                  {{else}}
+                    <span class="badge text-bg-danger">Failed</span>
+                  {{/if}}
+                </td>
+                <td class="small text-muted">{{this.ipAddress}}</td>
+                <td class="small text-muted text-truncate d-inline-block" style="max-width: 260px;">{{this.userAgent}}</td>
+              </tr>
+            {{else}}
+              <tr><td colspan="4" class="text-center text-muted py-4">No login history yet.</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

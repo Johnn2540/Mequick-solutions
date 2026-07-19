@@ -1,0 +1,69 @@
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Requested Items</h6></div>
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each quote.items}}
+              <tr>
+                <td>
+                  {{#if this.product.slug}}
+                    <a href="/products/{{this.product.slug}}" target="_blank" rel="noopener noreferrer">{{this.productName}}</a>
+                  {{else}}
+                    {{this.productName}} <span class="text-muted small">(no longer listed)</span>
+                  {{/if}}
+                </td>
+                <td>{{this.quantity}}</td>
+              </tr>
+            {{else}}
+              <tr><td colspan="2" class="text-center text-muted py-4">No items recorded.</td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {{#if quote.notes}}
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white"><h6 class="fw-bold mb-0">Additional Notes</h6></div>
+        <div class="card-body">{{quote.notes}}</div>
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Customer</h6></div>
+      <div class="card-body">
+        <p class="mb-1"><strong>{{quote.customerName}}</strong></p>
+        {{#if quote.hospital}}<p class="mb-1 text-muted small">{{quote.hospital}}</p>{{/if}}
+        {{#if quote.company}}<p class="mb-1 text-muted small">{{quote.company}}</p>{{/if}}
+        <p class="mb-1"><i class="bi bi-telephone me-1"></i>{{quote.phone}}</p>
+        {{#if quote.email}}<p class="mb-1"><i class="bi bi-envelope me-1"></i>{{quote.email}}</p>{{/if}}
+        <p class="text-muted small mb-0">Submitted {{quote.createdAt}}</p>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white"><h6 class="fw-bold mb-0">Status</h6></div>
+      <div class="card-body">
+        <form method="POST" action="/admin/quotes/{{quote.id}}/status">
+          {{> csrf}}
+          <select name="status" class="form-select mb-3">
+            {{#each statusOptions}}
+              <option value="{{this}}" {{#eq this ../quote.status}}selected{{/eq}}>{{this}}</option>
+            {{/each}}
+          </select>
+          <button type="submit" class="btn btn-primary w-100">Update Status</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

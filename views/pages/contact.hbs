@@ -1,0 +1,123 @@
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Get In Touch</h6>
+      <h1 class="fw-bold">Contact Us</h1>
+      <p class="text-muted col-lg-7 mx-auto">
+        Have a question or need help finding the right equipment? Reach out and our team will get back to you.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Contact Info + Map -->
+      <div class="col-lg-5">
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-start mb-3">
+              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-geo-alt-fill"></i></div>
+              <div>
+                <h6 class="fw-semibold mb-1">Our Address</h6>
+                <p class="small text-muted mb-0">{{company.address}}</p>
+              </div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-telephone-fill"></i></div>
+              <div>
+                <h6 class="fw-semibold mb-1">Call Us</h6>
+                <p class="small text-muted mb-0"><a href="tel:{{company.phone}}" class="text-decoration-none">{{company.phone}}</a></p>
+              </div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-whatsapp"></i></div>
+              <div>
+                <h6 class="fw-semibold mb-1">WhatsApp</h6>
+                <p class="small text-muted mb-0">
+                  <a href="{{waLink company.whatsapp}}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">{{company.whatsapp}}</a>
+                </p>
+              </div>
+            </div>
+            <div class="d-flex align-items-start">
+              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-envelope-fill"></i></div>
+              <div>
+                <h6 class="fw-semibold mb-1">Email</h6>
+                <p class="small text-muted mb-0"><a href="mailto:{{company.email}}" class="text-decoration-none">{{company.email}}</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm">
+          <iframe
+            src="https://www.google.com/maps?q={{encodeUri company.address}}&output=embed"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="{{company.name}} location"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h5 class="fw-bold mb-3">Send Us a Message</h5>
+
+            {{#if sent}}
+              <div class="alert alert-success" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i>Thank you — your message has been sent. We'll be in touch shortly.
+              </div>
+            {{/if}}
+
+            {{#if csrfError}}
+              <div class="alert alert-warning" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>This form took too long to submit and expired. Please try again.
+              </div>
+            {{/if}}
+
+            <form method="POST" action="/contact" novalidate>
+              {{> csrf}}
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="name" class="form-label">Full Name *</label>
+                  <input type="text" id="name" name="name" class="form-control {{#if (fieldError errors "name")}}is-invalid{{/if}}" value="{{formData.name}}" required>
+                  {{#if (fieldError errors "name")}}<div class="invalid-feedback">{{fieldError errors "name"}}</div>{{/if}}
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">Email Address *</label>
+                  <input type="email" id="email" name="email" class="form-control {{#if (fieldError errors "email")}}is-invalid{{/if}}" value="{{formData.email}}" required>
+                  {{#if (fieldError errors "email")}}<div class="invalid-feedback">{{fieldError errors "email"}}</div>{{/if}}
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" class="form-control {{#if (fieldError errors "phone")}}is-invalid{{/if}}" value="{{formData.phone}}">
+                  {{#if (fieldError errors "phone")}}<div class="invalid-feedback">{{fieldError errors "phone"}}</div>{{/if}}
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="subject" class="form-label">Subject</label>
+                  <input type="text" id="subject" name="subject" class="form-control {{#if (fieldError errors "subject")}}is-invalid{{/if}}" value="{{formData.subject}}">
+                  {{#if (fieldError errors "subject")}}<div class="invalid-feedback">{{fieldError errors "subject"}}</div>{{/if}}
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="message" class="form-label">Message *</label>
+                <textarea id="message" name="message" rows="5" class="form-control {{#if (fieldError errors "message")}}is-invalid{{/if}}" required>{{formData.message}}</textarea>
+                {{#if (fieldError errors "message")}}<div class="invalid-feedback">{{fieldError errors "message"}}</div>{{/if}}
+              </div>
+
+              <button type="submit" class="btn btn-danger px-4">
+                <i class="bi bi-send-fill me-2"></i>Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

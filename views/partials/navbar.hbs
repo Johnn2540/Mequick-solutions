@@ -1,0 +1,63 @@
+<header>
+  <!-- Top utility bar -->
+  <div class="topbar d-none d-md-block">
+    <div class="container d-flex justify-content-between align-items-center py-1 small">
+      <div class="d-flex gap-3">
+        <a href="tel:{{company.phone}}" class="text-white text-decoration-none">
+          <i class="bi bi-telephone-fill me-1"></i>{{company.phone}}
+        </a>
+        <a href="mailto:{{company.email}}" class="text-white text-decoration-none">
+          <i class="bi bi-envelope-fill me-1"></i>{{company.email}}
+        </a>
+      </div>
+      <div>
+        <i class="bi bi-clock-fill me-1"></i>Mon – Sat: 8:00 AM – 6:00 PM
+      </div>
+    </div>
+  </div>
+
+  <!-- Main navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="/">
+        <img src="/images/logo.png" alt="{{company.name}}" class="navbar-logo">
+        <span>{{company.name}}</span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+          <li class="nav-item">
+            <a class="nav-link {{#eq currentPath '/'}}active{{/eq}}" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/products">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/categories">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact</a>
+          </li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-danger btn-sm px-3" href="/request-quote">Request a Quote</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-secondary btn-sm px-3 ms-lg-2" href="/admin/login">
+              <i class="bi bi-person-lock me-1"></i>Admin
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

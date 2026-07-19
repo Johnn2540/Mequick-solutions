@@ -1,0 +1,128 @@
+<form method="GET" action="/admin/inventory" class="d-flex flex-wrap gap-2 align-items-center mb-4">
+  <input type="text" name="q" class="form-control" placeholder="Search by name or SKU..." value="{{q}}" style="width: 260px;">
+
+  <select name="category" class="form-select" style="width: 220px;" onchange="this.form.submit()">
+    <option value="">All Categories</option>
+    {{#each categories}}
+      <option value="{{this.slug}}" {{#eq this.slug ../category}}selected{{/eq}}>{{this.name}}</option>
+    {{/each}}
+  </select>
+
+  <div class="form-check form-check-inline ms-1">
+    <input class="form-check-input" type="checkbox" name="lowStock" value="1" id="lowStockFilter" {{#if lowStock}}checked{{/if}} onchange="this.form.submit()">
+    <label class="form-check-label" for="lowStockFilter">Low stock only</label>
+  </div>
+
+  <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+  {{#if q}}<a href="/admin/inventory" class="btn btn-link">Clear</a>{{/if}}
+</form>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Product</th>
+          <th>Category</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Availability</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <td class="d-flex align-items-center gap-2">
+              {{#if this.images.[0].url}}
+                <img src="{{this.images.[0].url}}" class="admin-thumb" alt="{{this.name}}">
+              {{else}}
+                <div class="admin-thumb bg-light d-flex align-items-center justify-content-center">
+                  <i class="bi bi-image text-muted"></i>
+                </div>
+              {{/if}}
+              <div>
+                <div>{{this.name}}</div>
+                {{#if this.sku}}<div class="text-muted small">SKU: {{this.sku}}</div>{{/if}}
+              </div>
+            </td>
+            <td>{{this.category.name}}</td>
+            <td>
+              <strong>{{this.stockQuantity}}</strong>
+              <span class="text-muted small">/ threshold {{this.lowStockThreshold}}</span>
+            </td>
+            <td>
+              {{#if this.isLowStock}}
+                <span class="badge text-bg-danger">Low Stock</span>
+              {{else}}
+                <span class="badge text-bg-success">OK</span>
+              {{/if}}
+            </td>
+            <td>
+              <form method="POST" action="/admin/inventory/{{this.id}}/availability" class="d-inline">
+                {{> csrf}}
+                <select name="availability" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">
+                  <option value="IN_STOCK" {{#eq this.availability 'IN_STOCK'}}selected{{/eq}}>In Stock</option>
+                  <option value="OUT_OF_STOCK" {{#eq this.availability 'OUT_OF_STOCK'}}selected{{/eq}}>Out of Stock</option>
+                  <option value="PREORDER" {{#eq this.availability 'PREORDER'}}selected{{/eq}}>Pre-order</option>
+                </select>
+              </form>
+            </td>
+            <td class="text-end">
+              <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#stockModal-{{this.id}}">
+                <i class="bi bi-box-arrow-in-down me-1"></i>Update Stock
+              </button>
+              <a href="/admin/inventory/{{this.id}}/history" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-clock-history"></i>
+              </a>
+            </td>
+          </tr>
+
+          <!-- Update Stock modal for this row -->
+          <div class="modal fade" id="stockModal-{{this.id}}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form method="POST" action="/admin/inventory/{{this.id}}/stock">
+                  {{> csrf}}
+                  <div class="modal-header">
+                    <h5 class="modal-title">Update Stock — {{this.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <p class="text-muted small">Current stock: <strong>{{this.stockQuantity}}</strong></p>
+                    <div class="mb-3">
+                      <label class="form-label">Change Type</label>
+                      <select name="changeType" class="form-select" required>
+                        <option value="RESTOCK">Restock (add)</option>
+                        <option value="SALE">Sale (remove)</option>
+                        <option value="ADJUSTMENT">Adjustment</option>
+                        <option value="CORRECTION">Correction</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Quantity Change</label>
+                      <input type="number" name="quantityChange" class="form-control" placeholder="e.g. 50 or -3" required>
+                      <div class="form-text">Positive to add stock, negative to remove.</div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Note (optional)</label>
+                      <textarea name="note" class="form-control" rows="2" maxlength="500"></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        {{else}}
+          <tr><td colspan="6" class="text-center text-muted py-4">No products match your filters.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{> pagination baseUrl="/admin/inventory" filters=(hash q=q category=category lowStock=lowStock)}}
