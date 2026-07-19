@@ -50,6 +50,16 @@
   --bs-link-hover-color: var(--qs-blue-dark);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   font-family: var(--font-body);
   color: var(--qs-dark);
@@ -363,29 +373,131 @@ a {
 
 /* ── Footer ───────────────────────────────────────────────────────────── */
 
+.footer-main {
+  background-color: var(--qs-dark);
+  position: relative;
+}
+
+/* Thin brand-gradient seam at the very top edge — a cleaner transition
+   than the flat white-to-dark cutoff, echoes .hero-section/.cta-section
+   without repeating a full gradient band. */
+.footer-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--qs-blue) 0%, var(--qs-red) 100%);
+}
+
+.footer-heading {
+  position: relative;
+  padding-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+/* Small accent underline instead of a full-width <hr> per column — reads
+   as a deliberate section marker rather than a stray leftover rule. */
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--qs-blue);
+}
+
 .footer-links a {
-  color: var(--qs-blue);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+  display: inline-block;
 }
 
 .footer-links li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .footer-links a:hover {
   color: var(--qs-white);
+  padding-left: 4px;
 }
 
-.footer-social-link {
+/* Circular icon-chip contact rows, dark-background counterpart to the
+   .why-icon treatment used on the Contact page — keeps the visual
+   language consistent between the two without reusing the same (light-
+   background) colors verbatim. */
+.footer-icon-chip {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
   color: var(--qs-blue);
+  font-size: 0.85rem;
+}
+
+.footer-links span.pt-1 {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-hours {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 0.75rem;
+}
+
+/* Brand-color circular buttons, matching the sticky social rail
+   introduced on the same pages (see .social-rail-link) so "follow us"
+   reads as one consistent affordance wherever it appears. */
+.footer-social-link {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.05rem;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .footer-social-link:hover {
+  color: #fff;
+  transform: translateY(-3px);
+  filter: brightness(1.1);
+}
+
+.footer-social-whatsapp {
+  background: #25d366;
+}
+
+.footer-social-facebook {
+  background: #1877f2;
+}
+
+.footer-social-instagram {
+  background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+
+.footer-back-to-top {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.footer-back-to-top:hover {
   color: var(--qs-white);
 }
 
-.footer-main {
-  background-color: var(--qs-dark);
+.footer-back-to-top i {
+  font-size: 1.1rem;
 }
 
 /* ── WhatsApp Floating Action Button ─────────────────────────────────── */
