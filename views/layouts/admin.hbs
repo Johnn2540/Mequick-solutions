@@ -15,74 +15,91 @@
 <body class="bg-light">
 
   {{#if currentUser}}
-    <div class="d-flex">
-      <aside class="admin-sidebar bg-dark text-white p-3 flex-shrink-0" style="width: 240px;">
-        <a href="/admin" class="d-flex align-items-center gap-2 text-white text-decoration-none mb-4">
-          <i class="bi bi-heart-pulse-fill fs-4"></i>
-          <span class="fw-bold">{{company.name}}</span>
-        </a>
-        <nav class="nav flex-column gap-1">
-          <a class="nav-link text-white-50 {{#eq currentPath '/admin'}}active text-white{{/eq}}" href="/admin">
-            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+    <div class="d-flex admin-shell">
+      <!-- offcanvas-lg: a normal, always-visible static sidebar at >=992px;
+           below that, Bootstrap turns this into a slide-in drawer toggled
+           by the header's hamburger button — no custom JS required. -->
+      <div class="offcanvas-lg offcanvas-start admin-sidebar text-white" tabindex="-1" id="adminSidebar" aria-labelledby="adminSidebarLabel">
+        <div class="offcanvas-header d-lg-none border-bottom border-secondary">
+          <span class="d-flex align-items-center gap-2 fw-bold small" id="adminSidebarLabel">
+            <img src="/images/logo.png" alt="{{company.name}}" class="admin-sidebar-logo">
+            {{company.name}}
+          </span>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebar" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column p-3">
+          <a href="/admin" class="d-none d-lg-flex align-items-center gap-2 text-white text-decoration-none mb-3">
+            <img src="/images/logo.png" alt="{{company.name}}" class="admin-sidebar-logo">
+            <span class="fw-bold small">{{company.name}}</span>
           </a>
-          <a class="nav-link text-white-50" href="/admin/products">
-            <i class="bi bi-box-seam me-2"></i>Products
-          </a>
-          <a class="nav-link text-white-50" href="/admin/categories">
-            <i class="bi bi-grid-3x3-gap me-2"></i>Categories
-          </a>
-          <a class="nav-link text-white-50" href="/admin/brands">
-            <i class="bi bi-tags me-2"></i>Brands
-          </a>
-          <a class="nav-link text-white-50" href="/admin/inventory">
-            <i class="bi bi-clipboard2-pulse me-2"></i>Inventory
-          </a>
-          <a class="nav-link text-white-50" href="/admin/quotes">
-            <i class="bi bi-file-earmark-text me-2"></i>Quote Requests
-          </a>
-          <a class="nav-link text-white-50" href="/admin/enquiries">
-            <i class="bi bi-chat-dots me-2"></i>Enquiries
-          </a>
-          <a class="nav-link text-white-50" href="/admin/messages">
-            <i class="bi bi-envelope me-2"></i>Messages
-          </a>
-          {{#eq currentUser.role 'SUPER_ADMIN'}}
-            <a class="nav-link text-white-50" href="/admin/audit-logs">
-              <i class="bi bi-shield-lock me-2"></i>Activity Logs
+          <nav class="nav flex-column gap-1 admin-nav">
+            <a class="nav-link text-white-50 {{#eq currentPath '/admin'}}active{{/eq}}" href="/admin">
+              <i class="bi bi-speedometer2 me-2"></i>Dashboard
             </a>
-          {{/eq}}
-          <hr class="border-secondary">
-          <a class="nav-link text-white-50" href="/admin/profile">
-            <i class="bi bi-person-circle me-2"></i>My Profile
-          </a>
-          <a class="nav-link text-white-50" href="/" target="_blank" rel="noopener noreferrer">
-            <i class="bi bi-box-arrow-up-right me-2"></i>View Site
-          </a>
-        </nav>
-      </aside>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/products')}}active{{/if}}" href="/admin/products">
+              <i class="bi bi-box-seam me-2"></i>Products
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/categories')}}active{{/if}}" href="/admin/categories">
+              <i class="bi bi-grid-3x3-gap me-2"></i>Categories
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/brands')}}active{{/if}}" href="/admin/brands">
+              <i class="bi bi-tags me-2"></i>Brands
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/inventory')}}active{{/if}}" href="/admin/inventory">
+              <i class="bi bi-clipboard2-pulse me-2"></i>Inventory
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/quotes')}}active{{/if}}" href="/admin/quotes">
+              <i class="bi bi-file-earmark-text me-2"></i>Quote Requests
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/enquiries')}}active{{/if}}" href="/admin/enquiries">
+              <i class="bi bi-chat-dots me-2"></i>Enquiries
+            </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/messages')}}active{{/if}}" href="/admin/messages">
+              <i class="bi bi-envelope me-2"></i>Messages
+            </a>
+            {{#eq currentUser.role 'SUPER_ADMIN'}}
+              <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/audit-logs')}}active{{/if}}" href="/admin/audit-logs">
+                <i class="bi bi-shield-lock me-2"></i>Activity Logs
+              </a>
+            {{/eq}}
+            <hr class="border-secondary my-2">
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/profile')}}active{{/if}}" href="/admin/profile">
+              <i class="bi bi-person-circle me-2"></i>My Profile
+            </a>
+            <a class="nav-link text-white-50" href="/" target="_blank" rel="noopener noreferrer">
+              <i class="bi bi-box-arrow-up-right me-2"></i>View Site
+            </a>
+          </nav>
+        </div>
+      </div>
 
-      <div class="flex-grow-1 min-vh-100">
-        <header class="bg-white border-bottom px-4 py-3 d-flex justify-content-between align-items-center">
-          <h5 class="mb-0 fw-bold">{{title}}</h5>
-          <div class="d-flex align-items-center gap-3">
-            <span class="text-muted small">{{currentUser.name}}</span>
+      <div class="flex-grow-1 min-vh-100 admin-content">
+        <header class="bg-white border-bottom px-3 px-lg-4 py-2 d-flex justify-content-between align-items-center gap-2">
+          <div class="d-flex align-items-center gap-2 min-width-0">
+            <button class="btn btn-sm btn-outline-secondary d-lg-none flex-shrink-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebar" aria-controls="adminSidebar" aria-label="Toggle navigation">
+              <i class="bi bi-list"></i>
+            </button>
+            <h6 class="mb-0 fw-bold text-truncate">{{title}}</h6>
+          </div>
+          <div class="d-flex align-items-center gap-2 gap-sm-3 flex-shrink-0">
+            <span class="text-muted small d-none d-sm-inline">{{currentUser.name}}</span>
             <form method="POST" action="/admin/logout" class="mb-0">
               {{> csrf}}
               <button type="submit" class="btn btn-sm btn-outline-secondary">
-                <i class="bi bi-box-arrow-right me-1"></i>Logout
+                <i class="bi bi-box-arrow-right"></i><span class="d-none d-sm-inline ms-1">Logout</span>
               </button>
             </form>
           </div>
         </header>
         {{> flash}}
-        <main class="p-4">
+        <main class="p-3 p-lg-4">
           {{{body}}}
         </main>
       </div>
     </div>
   {{else}}
-    <main class="d-flex align-items-center justify-content-center min-vh-100">
-      <div class="w-100" style="max-width: 420px;">
+    <main class="d-flex align-items-center justify-content-center min-vh-100 px-3">
+      <div class="w-100" style="max-width: 400px;">
         {{> flash}}
         {{{body}}}
       </div>

@@ -106,6 +106,14 @@ function registerHelpers(hbs) {
     const match = errors.find((e) => e.path === field);
     return match ? match.msg : '';
   });
+
+  // {{#if (startsWith currentPath "/admin/products")}} — plain prefix check,
+  // used to highlight a whole sidebar section (list + new + edit pages) as
+  // active, not just an exact-match page. Plain (not block) so it can be
+  // used as a subexpression inside {{#if}}.
+  hbs.registerHelper('startsWith', function (str, prefix) {
+    return typeof str === 'string' && str.startsWith(prefix);
+  });
 }
 
 module.exports = registerHelpers;

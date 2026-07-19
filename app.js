@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./config/validateEnv')();
 
 const express = require('express');
 const path = require('path');
