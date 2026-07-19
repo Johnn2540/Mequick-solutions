@@ -16,47 +16,61 @@
     </div>
   </div>
 
-  <!-- Main navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-3">
+  <!-- Main navigation. Below `lg` the nav collapses into a right-side
+       offcanvas drawer (data-bs-toggle="offcanvas") rather than the classic
+       dropdown-under-the-navbar pattern — same professional side-drawer
+       treatment as the admin panel's sidebar. `navbar-expand-lg` is what
+       makes Bootstrap automatically render the offcanvas inline (no drawer,
+       no toggler) at >=992px; see Bootstrap's own "offcanvas navbar" pattern. -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top py-2">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary" href="/">
         <img src="/images/logo.png" alt="{{company.name}}" class="navbar-logo">
         <span>{{company.name}}</span>
       </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainNav" aria-controls="mainNav" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-          <li class="nav-item">
-            <a class="nav-link {{#eq currentPath '/'}}active{{/eq}}" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/products">Products</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/categories">Categories</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/services">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
-          </li>
-          <li class="nav-item ms-lg-2">
-            <a class="btn btn-danger btn-sm px-3" href="/request-quote">Request a Quote</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-outline-secondary btn-sm px-3 ms-lg-2" href="/admin/login">
-              <i class="bi bi-person-lock me-1"></i>Admin
-            </a>
-          </li>
-        </ul>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="mainNav" aria-labelledby="mainNavLabel">
+        <div class="offcanvas-header border-bottom">
+          <span class="d-flex align-items-center gap-2 fw-bold text-primary" id="mainNavLabel">
+            <img src="/images/logo.png" alt="{{company.name}}" class="navbar-logo">
+            {{company.name}}
+          </span>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column">
+          <ul class="navbar-nav ms-lg-auto align-items-lg-center gap-lg-1">
+            <li class="nav-item">
+              <a class="nav-link {{#eq currentPath '/'}}active{{/eq}}" href="/" data-bs-dismiss="offcanvas">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{#if (startsWith currentPath '/products')}}active{{/if}}" href="/products" data-bs-dismiss="offcanvas">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{#if (startsWith currentPath '/categories')}}active{{/if}}" href="/categories" data-bs-dismiss="offcanvas">Categories</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{#eq currentPath '/about'}}active{{/eq}}" href="/about" data-bs-dismiss="offcanvas">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{#eq currentPath '/services'}}active{{/eq}}" href="/services" data-bs-dismiss="offcanvas">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{#eq currentPath '/contact'}}active{{/eq}}" href="/contact" data-bs-dismiss="offcanvas">Contact</a>
+            </li>
+            <li class="nav-item navbar-cta-item ms-lg-2 mt-2 mt-lg-0">
+              <a class="btn btn-danger btn-sm px-3" href="/request-quote" data-bs-dismiss="offcanvas">Request a Quote</a>
+            </li>
+            <li class="nav-item navbar-cta-item mt-2 mt-lg-0">
+              <a class="btn btn-outline-secondary btn-sm px-3 ms-lg-2" href="/admin/login">
+                <i class="bi bi-person-lock me-1"></i>Admin
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>

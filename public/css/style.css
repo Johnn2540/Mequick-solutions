@@ -133,26 +133,43 @@ a {
 
 .navbar-nav .nav-link {
   font-weight: 500;
+  font-size: 0.9rem;
   color: var(--qs-dark);
-  padding: 0.5rem 0.9rem;
+  padding: 0.5rem 0.75rem;
 }
 
 /* Round badge treatment for the wordmark logo — object-fit: contain keeps
    the whole logo visible (no cropped letters), the circular frame just
    clips the image's own square corners, which are empty background. */
 .navbar-logo {
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: contain;
   background-color: var(--qs-light);
   border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 3px;
+  flex-shrink: 0;
 }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
   color: var(--qs-blue);
+}
+
+/* Mobile offcanvas menu: CTA buttons go full-width in the stacked drawer,
+   auto-width once the offcanvas becomes an inline navbar row at >=lg. */
+@media (max-width: 991.98px) {
+  .navbar-cta-item .btn {
+    width: 100%;
+  }
+}
+
+/* Below `lg`, the offcanvas nav list should hug the left edge like a normal
+   menu, not stay right-aligned (ms-lg-auto only applies the auto-margin at
+   >=lg, keeping this scoped exactly to when the offcanvas is a drawer). */
+.offcanvas-body .navbar-nav {
+  width: 100%;
 }
 
 /* ── Hero ─────────────────────────────────────────────────────────────── */
@@ -180,8 +197,8 @@ a {
 }
 
 .category-icon {
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -189,7 +206,7 @@ a {
   border-radius: 50%;
   background: var(--qs-blue-tint);
   color: var(--qs-blue);
-  font-size: 1.75rem;
+  font-size: 1.4rem;
 }
 
 /* ── Why Choose Us ───────────────────────────────────────────────────── */
@@ -208,8 +225,8 @@ a {
    rhythm instead of an all-blue page, and doubles nicely as a "medical
    cross" association for a healthcare brand. */
 .why-icon {
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -217,7 +234,7 @@ a {
   border-radius: 50%;
   background: var(--qs-red-tint);
   color: var(--qs-red);
-  font-size: 1.75rem;
+  font-size: 1.4rem;
 }
 
 /* ── Brands ───────────────────────────────────────────────────────────── */
@@ -317,12 +334,12 @@ a {
 
 .product-card-img-wrap,
 .product-card-img-placeholder {
-  height: 200px;
+  height: 165px;
   background: var(--qs-light);
 }
 
 .product-card .card-img-top {
-  height: 200px;
+  height: 165px;
   width: 100%;
   object-fit: cover;
 }
@@ -333,10 +350,14 @@ a {
   justify-content: center;
 }
 
+.product-card .card-body {
+  padding: 0.9rem;
+}
+
 .product-badge {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
+  top: 0.65rem;
+  left: 0.65rem;
 }
 
 /* Lifts the View Details / Request Quote buttons above the card's
@@ -355,6 +376,17 @@ a {
   top: 90px;
 }
 
+/* Below `lg` the sidebar stacks full-width above the product grid instead
+   of sitting beside it — sticky positioning there just pins an unrelated
+   block to the top while scrolling through products, which reads as a bug,
+   not a feature. */
+@media (max-width: 991.98px) {
+  .filter-sidebar {
+    position: static;
+    top: auto;
+  }
+}
+
 /* ── Category List Cards (Categories page) ───────────────────────────── */
 
 .category-list-card {
@@ -368,9 +400,13 @@ a {
   box-shadow: 0 1rem 2rem rgba(31, 149, 211, 0.15) !important;
 }
 
+.category-list-card .card-body {
+  padding: 0.9rem;
+}
+
 .category-list-img,
 .category-list-img-placeholder {
-  height: 180px;
+  height: 150px;
   width: 100%;
   object-fit: cover;
   background: var(--qs-light);
