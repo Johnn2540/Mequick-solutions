@@ -22,7 +22,7 @@
       {{#if this.brand.name}}
         <p class="small text-muted mb-2">{{this.brand.name}}</p>
       {{/if}}
-      <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-3">
         <span class="fw-semibold text-primary">{{formatCurrency this.price}}</span>
         {{#eq this.availability 'IN_STOCK'}}
           <span class="badge text-bg-success">In Stock</span>

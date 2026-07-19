@@ -194,6 +194,66 @@ a {
   min-height: 50vh;
 }
 
+/* ── Hero Trust Strip ─────────────────────────────────────────────────── */
+/* A white card straddling the hero's bottom edge — negative margin pulls
+   it up into the gradient, positive z-index keeps it above it. Common
+   "floating stat bar" pattern that gives the hero a defined bottom edge
+   instead of just fading into the next section. */
+
+.hero-stats-bar {
+  background: var(--qs-white);
+  border-radius: 1rem;
+  margin-top: -48px;
+  position: relative;
+  z-index: 2;
+  padding: 0.75rem 0;
+}
+
+.hero-stat {
+  padding: 0.9rem 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Last row of the 2-column mobile grid (the final 2 of the 4 fixed stat
+   items) shouldn't get a trailing divider. */
+.hero-stat:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+@media (min-width: 768px) {
+  .hero-stat {
+    border-bottom: none;
+    border-right: 1px solid #e9ecef;
+  }
+
+  .hero-stat:last-child {
+    border-right: none;
+  }
+}
+
+.hero-stat-value {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--qs-blue);
+  line-height: 1.2;
+}
+
+.hero-stat-icon {
+  font-size: 1.4rem;
+  color: var(--qs-blue);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.hero-stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--qs-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 /* ── Category Cards ───────────────────────────────────────────────────── */
 
 .category-card {
@@ -215,6 +275,11 @@ a {
   background: var(--qs-blue-tint);
   color: var(--qs-blue);
   font-size: 1.75rem;
+  transition: transform 0.35s ease;
+}
+
+.category-card:hover .category-card-img {
+  transform: scale(1.08);
 }
 
 .category-card-img-placeholder {
@@ -617,12 +682,18 @@ a {
 .product-card-img-placeholder {
   height: 165px;
   background: var(--qs-light);
+  overflow: hidden;
 }
 
 .product-card .card-img-top {
   height: 165px;
   width: 100%;
   object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover .card-img-top {
+  transform: scale(1.08);
 }
 
 .product-card-img-placeholder {
@@ -691,6 +762,11 @@ a {
   width: 100%;
   object-fit: cover;
   background: var(--qs-light);
+  transition: transform 0.35s ease;
+}
+
+.category-list-card:hover .category-list-img {
+  transform: scale(1.08);
 }
 
 .category-list-img-placeholder {

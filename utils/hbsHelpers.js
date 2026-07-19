@@ -113,6 +113,13 @@ function registerHelpers(hbs) {
     return match ? match.msg : '';
   });
 
+  // {{#if (any a b c)}} — true if any argument is truthy. Plain (not block)
+  // so it can be used as a subexpression inside {{#if}}.
+  hbs.registerHelper('any', function (...args) {
+    const values = args.slice(0, -1);
+    return values.some(Boolean);
+  });
+
   // {{#if (startsWith currentPath "/admin/products")}} — plain prefix check,
   // used to highlight a whole sidebar section (list + new + edit pages) as
   // active, not just an exact-match page. Plain (not block) so it can be

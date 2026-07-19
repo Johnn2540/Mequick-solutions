@@ -25,11 +25,12 @@
     {{/if}}
 
     <div class="mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Category</h6>
       <h1 class="fw-bold">{{category.name}}</h1>
       {{#if category.description}}
         <p class="text-muted col-lg-8">{{category.description}}</p>
       {{/if}}
-      <span class="text-muted small">{{pagination.totalCount}} product(s) in this category</span>
+      <span class="badge text-bg-primary-subtle text-primary">{{pagination.totalCount}} product(s) in this category</span>
     </div>
 
     {{#if products.length}}
