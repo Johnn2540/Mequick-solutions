@@ -820,6 +820,28 @@ a {
   }
 }
 
+/* ── Admin Login ──────────────────────────────────────────────────────── */
+
+.admin-auth-bg {
+  background: linear-gradient(160deg, var(--qs-light) 0%, var(--qs-blue-tint) 100%);
+}
+
+.login-card {
+  border-radius: 1rem;
+  border-top: 4px solid var(--qs-blue) !important;
+}
+
+.login-logo {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: var(--qs-white);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.35rem 1rem rgba(31, 149, 211, 0.2);
+  padding: 8px;
+}
+
 .admin-sidebar-logo {
   width: 28px;
   height: 28px;
