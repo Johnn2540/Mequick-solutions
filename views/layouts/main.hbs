@@ -35,6 +35,31 @@
 
   {{> footer}}
 
+  <!-- Sticky social rail — docks to the left edge on desktop/tablet; on
+       mobile it repositions above the WhatsApp FAB instead (see
+       .social-rail in style.css) so it never sits over card content in
+       the site's tight 2-column mobile grid. -->
+  <div class="social-rail">
+    <a
+      href="{{company.social.facebook}}"
+      class="social-rail-link social-rail-facebook"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Follow us on Facebook"
+    >
+      <i class="bi bi-facebook"></i>
+    </a>
+    <a
+      href="{{company.social.instagram}}"
+      class="social-rail-link social-rail-instagram"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Follow us on Instagram"
+    >
+      <i class="bi bi-instagram"></i>
+    </a>
+  </div>
+
   <!-- WhatsApp floating action button -->
   <a
     href="{{waLink company.whatsapp}}"

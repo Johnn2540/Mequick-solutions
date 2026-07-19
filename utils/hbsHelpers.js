@@ -36,9 +36,15 @@ function registerHelpers(hbs) {
   // {{year}} — current year, used in the footer copyright line
   hbs.registerHelper('year', () => new Date().getFullYear());
 
-  // {{waLink phone message}} — builds a wa.me deep link with a prefilled message
+  // {{waLink phone message}} — builds a wa.me deep link with a prefilled message.
+  // When called with just `phone` (no message), Handlebars still appends its
+  // internal options object as the final argument — a `message || default`
+  // check would see that object as truthy and stringify it to "[object
+  // Object]", so this must check for an actual string instead.
   hbs.registerHelper('waLink', function (phone, message) {
-    const text = encodeURIComponent(message || 'Hello, I would like to enquire about your products.');
+    const text = encodeURIComponent(
+      typeof message === 'string' ? message : 'Hello, I would like to enquire about your products.'
+    );
     return `https://wa.me/${phone}?text=${text}`;
   });
 

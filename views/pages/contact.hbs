@@ -4,65 +4,106 @@
       <h6 class="text-uppercase text-primary fw-semibold">Get In Touch</h6>
       <h1 class="fw-bold">Contact Us</h1>
       <p class="text-muted col-lg-7 mx-auto">
-        Have a question or need help finding the right equipment? Reach out and our team will get back to you.
+        Have a question or need help finding the right equipment? Reach out and our team will get back to you
+        within 24 hours.
       </p>
     </div>
 
+    <!-- Quick contact methods -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-3">
+        <a
+          href="https://www.google.com/maps?q={{encodeUri company.address}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card why-card contact-method-card border-0 shadow-sm h-100"
+        >
+          <div class="card-body text-center p-3">
+            <div class="why-icon mb-2"><i class="bi bi-geo-alt-fill"></i></div>
+            <h6 class="fw-semibold small mb-1">Visit Us</h6>
+            <p class="small text-muted mb-0">{{company.address}}</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a href="tel:{{company.phone}}" class="card why-card contact-method-card border-0 shadow-sm h-100">
+          <div class="card-body text-center p-3">
+            <div class="why-icon mb-2"><i class="bi bi-telephone-fill"></i></div>
+            <h6 class="fw-semibold small mb-1">Call Us</h6>
+            <p class="small text-muted mb-0">{{company.phone}}</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a
+          href="{{waLink company.whatsapp}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card why-card contact-method-card border-0 shadow-sm h-100"
+        >
+          <div class="card-body text-center p-3">
+            <div class="why-icon mb-2"><i class="bi bi-whatsapp"></i></div>
+            <h6 class="fw-semibold small mb-1">WhatsApp</h6>
+            <p class="small text-muted mb-0">{{company.whatsapp}}</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-lg-3">
+        <a href="mailto:{{company.email}}" class="card why-card contact-method-card border-0 shadow-sm h-100">
+          <div class="card-body text-center p-3">
+            <div class="why-icon mb-2"><i class="bi bi-envelope-fill"></i></div>
+            <h6 class="fw-semibold small mb-1">Email Us</h6>
+            <p class="small text-muted mb-0 text-break">{{company.email}}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
     <div class="row g-4">
-      <!-- Contact Info + Map -->
+      <!-- Map + Business Hours -->
       <div class="col-lg-5">
         <div class="card border-0 shadow-sm mb-4">
-          <div class="card-body p-3 p-md-4">
-            <div class="d-flex align-items-start mb-3">
-              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-geo-alt-fill"></i></div>
-              <div>
-                <h6 class="fw-semibold mb-1">Our Address</h6>
-                <p class="small text-muted mb-0">{{company.address}}</p>
-              </div>
-            </div>
-            <div class="d-flex align-items-start mb-3">
-              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-telephone-fill"></i></div>
-              <div>
-                <h6 class="fw-semibold mb-1">Call Us</h6>
-                <p class="small text-muted mb-0"><a href="tel:{{company.phone}}" class="text-decoration-none">{{company.phone}}</a></p>
-              </div>
-            </div>
-            <div class="d-flex align-items-start mb-3">
-              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-whatsapp"></i></div>
-              <div>
-                <h6 class="fw-semibold mb-1">WhatsApp</h6>
-                <p class="small text-muted mb-0">
-                  <a href="{{waLink company.whatsapp}}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">{{company.whatsapp}}</a>
-                </p>
-              </div>
-            </div>
-            <div class="d-flex align-items-start">
-              <div class="why-icon me-3 flex-shrink-0"><i class="bi bi-envelope-fill"></i></div>
-              <div>
-                <h6 class="fw-semibold mb-1">Email</h6>
-                <p class="small text-muted mb-0"><a href="mailto:{{company.email}}" class="text-decoration-none">{{company.email}}</a></p>
-              </div>
-            </div>
+          <div class="ratio ratio-4x3 rounded-3 overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps?q={{encodeUri company.address}}&output=embed"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="{{company.name}} location"
+            ></iframe>
           </div>
         </div>
 
-        <div class="ratio ratio-4x3 rounded-3 overflow-hidden shadow-sm">
-          <iframe
-            src="https://www.google.com/maps?q={{encodeUri company.address}}&output=embed"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="{{company.name}} location"
-          ></iframe>
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-3 p-md-4">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <div class="why-icon why-icon-sm"><i class="bi bi-clock-fill"></i></div>
+              <h6 class="fw-semibold mb-0">Business Hours</h6>
+            </div>
+            <div class="d-flex justify-content-between small mb-2">
+              <span class="text-muted">Monday – Saturday</span>
+              <span class="fw-semibold">8:00 AM – 6:00 PM</span>
+            </div>
+            <div class="d-flex justify-content-between small mb-0">
+              <span class="text-muted">Sunday</span>
+              <span class="fw-semibold">Closed</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Contact Form -->
       <div class="col-lg-7">
-        <div class="card border-0 shadow-sm">
+        <div class="card border-0 shadow-sm h-100">
           <div class="card-body p-3 p-md-4">
-            <h5 class="fw-bold mb-3">Send Us a Message</h5>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <div class="why-icon why-icon-sm"><i class="bi bi-send-fill"></i></div>
+              <h5 class="fw-bold mb-0">Send Us a Message</h5>
+            </div>
+            <p class="text-muted small mb-3">
+              Fill in the form below and our team will get back to you within 24 hours.
+            </p>
 
             {{#if sent}}
               <div class="alert alert-success" role="alert">
@@ -111,9 +152,14 @@
                 {{#if (fieldError errors "message")}}<div class="invalid-feedback">{{fieldError errors "message"}}</div>{{/if}}
               </div>
 
-              <button type="submit" class="btn btn-danger px-4">
-                <i class="bi bi-send-fill me-2"></i>Send Message
-              </button>
+              <div class="d-flex flex-wrap align-items-center gap-3">
+                <button type="submit" class="btn btn-danger px-4">
+                  <i class="bi bi-send-fill me-2"></i>Send Message
+                </button>
+                <span class="text-muted small">
+                  <i class="bi bi-shield-lock-fill me-1"></i>Your information is kept confidential.
+                </span>
+              </div>
             </form>
           </div>
         </div>

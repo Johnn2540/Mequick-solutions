@@ -126,6 +126,14 @@ app.use((req, res, next) => {
     whatsapp: process.env.COMPANY_WHATSAPP,
     email: process.env.COMPANY_EMAIL,
     address: process.env.COMPANY_ADDRESS,
+    // Public social profile URLs — unlike the fields above these aren't
+    // secrets or per-environment config, so they're plain constants here
+    // rather than env vars the deploy could forget to set (and silently
+    // ship a dead link). Update both if the business's handles change.
+    social: {
+      facebook: 'https://www.facebook.com/share/1EVccHRJRN/',
+      instagram: 'https://www.instagram.com/mequick_solutions?igsh=MXRpcTZmbjJiZHh1dQ==',
+    },
   };
   res.locals.currentPath = req.path;
   // Overwritten with the real value for /admin requests once Passport
