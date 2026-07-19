@@ -1,4 +1,4 @@
-<div class="col-lg-3 col-md-4 col-sm-6">
+<div class="col-6 col-md-4 col-lg-3">
   <div class="card product-card h-100 border-0 shadow-sm">
     <a href="/products/{{this.slug}}" class="product-card-img-wrap d-block position-relative">
       {{#if this.images.[0].url}}
@@ -36,8 +36,10 @@
       </div>
       <!-- Sits above the card's stretched-link overlay (see .product-card-actions
            in style.css) so these stay independently clickable instead of the
-           whole-card link swallowing every click. -->
-      <div class="mt-auto d-flex gap-2 product-card-actions">
+           whole-card link swallowing every click. Stacked below `md` — at the
+           2-per-row phone/tablet width these cards are too narrow for two
+           side-by-side buttons to read comfortably. -->
+      <div class="mt-auto d-flex flex-column flex-md-row gap-2 product-card-actions">
         <a href="/products/{{this.slug}}" class="btn btn-primary btn-sm flex-fill">View Details</a>
         <a href="/request-quote?product={{this.slug}}" class="btn btn-danger btn-sm flex-fill">Request Quote</a>
       </div>
