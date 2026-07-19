@@ -27,4 +27,10 @@ const profileValidator = [
   body('email').trim().isEmail().withMessage('Enter a valid email address.'),
 ];
 
-module.exports = { loginValidator, changePasswordValidator, profileValidator, PASSWORD_COMPLEXITY_REGEX };
+module.exports = {
+  loginValidator,
+  changePasswordValidator,
+  profileValidator,
+  PASSWORD_COMPLEXITY_REGEX,
+  PASSWORD_COMPLEXITY_MESSAGE,
+};

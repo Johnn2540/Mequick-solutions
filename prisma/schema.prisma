@@ -101,16 +101,27 @@ model AuditLog {
   userId      String?
   user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action      String
+  // Free-form, same convention as `action` — e.g. "AUTH", "PRODUCTS",
+  // "USERS". Nullable rather than backfilled on old rows: a NULL module on
+  // pre-existing entries just means "logged before this field existed",
+  // not an error.
+  module      String?
   entityType  String?
   entityId    String?
   description String
   ipAddress   String?
   userAgent   String?
+  // "SUCCESS" or "FAILED" — lets a failed login attempt (already logged
+  // today) actually be filtered/searched as a failure instead of only
+  // being distinguishable by reading the action name or description.
+  status      String   @default("SUCCESS")
   createdAt   DateTime @default(now())
 
   @@index([userId])
   @@index([action])
   @@index([createdAt])
+  @@index([module])
+  @@index([status])
   @@map("audit_logs")
 }
 

@@ -4,6 +4,7 @@ const categoryService = require('../services/category.service');
 const productService = require('../services/product.service');
 const messageService = require('../services/message.service');
 const quoteService = require('../services/quote.service');
+const partnerService = require('../services/partner.service');
 
 // Bootstrap Icons keyed by category slug, purely cosmetic for the homepage
 // grid. Any category without a match here falls back to a generic icon.
@@ -41,9 +42,10 @@ const SERVICES = [
 
 // GET /
 exports.renderHome = asyncHandler(async (req, res) => {
-  const [categories, featuredProducts] = await Promise.all([
+  const [categories, featuredProducts, partners] = await Promise.all([
     categoryService.getAllCategories(),
     productService.getFeaturedProducts(8),
+    partnerService.getActivePartners(),
   ]);
 
   const categoriesWithIcons = categories.map((category) => ({
@@ -58,15 +60,18 @@ exports.renderHome = asyncHandler(async (req, res) => {
     categories: categoriesWithIcons,
     featuredProducts,
     whyChooseUs: WHY_CHOOSE_US,
+    partners,
   });
 });
 
 // GET /about
 exports.renderAbout = asyncHandler(async (req, res) => {
+  const partners = await partnerService.getActivePartners();
   res.render('pages/about', {
     title: 'About Us',
     metaDescription: `Learn about ${res.locals.company.name}, a trusted medical equipment supplier serving hospitals and clinics across Kenya.`,
     whyChooseUs: WHY_CHOOSE_US,
+    partners,
     breadcrumbs: [{ label: 'About Us' }],
   });
 });

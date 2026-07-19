@@ -1,0 +1,75 @@
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <form method="GET" action="/admin/users" class="d-flex gap-2">
+    <input type="text" name="q" class="form-control" placeholder="Search name or email..." value="{{q}}" style="width: 240px;">
+    <select name="role" class="form-select" data-autosubmit>
+      <option value="">All Roles</option>
+      {{#each roles}}
+        <option value="{{this}}" {{#eq this ../role}}selected{{/eq}}>{{this}}</option>
+      {{/each}}
+    </select>
+    <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+  </form>
+  <a href="/admin/users/new" class="btn btn-primary"><i class="bi bi-person-plus me-1"></i>Add User</a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>User</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Last Login</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+          <tr>
+            <td class="d-flex align-items-center gap-2">
+              {{#if this.avatarUrl}}
+                <img src="{{this.avatarUrl}}" class="admin-thumb" alt="{{this.name}}" style="border-radius: 50%;">
+              {{else}}
+                <div class="admin-thumb bg-light d-flex align-items-center justify-content-center" style="border-radius: 50%;">
+                  <i class="bi bi-person text-muted"></i>
+                </div>
+              {{/if}}
+              <div>
+                <div>{{this.name}}</div>
+                <div class="text-muted small">{{this.email}}</div>
+              </div>
+            </td>
+            <td><span class="badge text-bg-primary">{{this.role}}</span></td>
+            <td>
+              {{#if this.isActive}}
+                <span class="badge text-bg-success">Active</span>
+              {{else}}
+                <span class="badge text-bg-secondary">Inactive</span>
+              {{/if}}
+            </td>
+            <td class="small text-muted">{{#if this.lastLogin}}{{this.lastLogin}}{{else}}Never{{/if}}</td>
+            <td class="text-end">
+              <a href="/admin/users/{{this.id}}/activity" class="btn btn-sm btn-outline-secondary" title="View activity">
+                <i class="bi bi-clock-history"></i>
+              </a>
+              <a href="/admin/users/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-pencil"></i>
+              </a>
+              {{#unless (eqVal this.id @root.currentUser.id)}}
+                <form method="POST" action="/admin/users/{{this.id}}/delete" class="d-inline" data-confirm="Delete this user account? This cannot be undone.">
+                  {{> csrf}}
+                  <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                </form>
+              {{/unless}}
+            </td>
+          </tr>
+        {{else}}
+          <tr><td colspan="5" class="text-center text-muted py-4">No users found.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{{> pagination baseUrl="/admin/users" filters=(hash q=q role=role)}}

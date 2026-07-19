@@ -57,7 +57,13 @@
             <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/messages')}}active{{/if}}" href="/admin/messages">
               <i class="bi bi-envelope me-2"></i>Messages
             </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/partners')}}active{{/if}}" href="/admin/partners">
+              <i class="bi bi-building me-2"></i>Partners
+            </a>
             {{#eq currentUser.role 'SUPER_ADMIN'}}
+              <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/users')}}active{{/if}}" href="/admin/users">
+                <i class="bi bi-people me-2"></i>Users
+              </a>
               <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/audit-logs')}}active{{/if}}" href="/admin/audit-logs">
                 <i class="bi bi-shield-lock me-2"></i>Activity Logs
               </a>
@@ -108,5 +114,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/main.js"></script>
+  <script src="/js/admin.js"></script>
 </body>
 </html>

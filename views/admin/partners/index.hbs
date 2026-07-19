@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h6 class="text-muted mb-0">{{partners.length}} partners</h6>
+  <a href="/admin/partners/new" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>Add Partner</a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Partner</th>
+          <th>Website</th>
+          <th>Order</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each partners}}
+          <tr>
+            <td class="d-flex align-items-center gap-2">
+              <img src="{{this.logoUrl}}" class="admin-thumb" alt="{{this.name}}">
+              <span>{{this.name}}</span>
+            </td>
+            <td class="small">
+              {{#if this.websiteUrl}}
+                <a href="{{this.websiteUrl}}" target="_blank" rel="noopener noreferrer">{{this.websiteUrl}}</a>
+              {{else}}
+                <span class="text-muted">—</span>
+              {{/if}}
+            </td>
+            <td class="text-muted small">{{this.order}}</td>
+            <td>
+              {{#if this.isActive}}
+                <span class="badge text-bg-success">Active</span>
+              {{else}}
+                <span class="badge text-bg-secondary">Hidden</span>
+              {{/if}}
+            </td>
+            <td class="text-end">
+              <a href="/admin/partners/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form method="POST" action="/admin/partners/{{this.id}}/delete" class="d-inline" data-confirm="Delete this partner?">
+                {{> csrf}}
+                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+        {{else}}
+          <tr><td colspan="5" class="text-center text-muted py-4">No partners yet — add the logos of brands you work with to show them on the homepage.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

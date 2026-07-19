@@ -269,6 +269,66 @@ a {
   letter-spacing: 0.05em;
 }
 
+/* ── Partners Marquee (Brands We Work With) ──────────────────────────────
+   Continuous right-to-left scroll, pure CSS. The track's content is the
+   partner logo list rendered TWICE back to back (see partnersMarquee.hbs);
+   animating exactly -50% — the width of one copy — means the instant the
+   loop "resets" to 0%, the second copy is sitting pixel-identical to where
+   the first one started, so the scroll reads as an unbroken chain with no
+   visible seam or jump. */
+
+.partners-marquee {
+  overflow: hidden;
+  /* Fades logos in/out at the edges instead of a hard clip. */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.partners-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: partners-marquee-scroll 28s linear infinite;
+}
+
+/* Pause on hover — lets a visitor actually look at (or click) a logo
+   instead of chasing a moving target. */
+.partners-marquee:hover .partners-marquee-track {
+  animation-play-state: paused;
+}
+
+.partners-marquee-logo {
+  height: 52px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  margin: 0 2.25rem;
+  filter: grayscale(100%);
+  opacity: 0.65;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.partners-marquee-logo:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+}
+
+@keyframes partners-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Negative = leftward. Exactly half the doubled track's width. */
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee-track {
+    animation: none;
+  }
+}
+
 /* ── CTA ──────────────────────────────────────────────────────────────── */
 
 .cta-section {
@@ -552,4 +612,29 @@ a {
   align-items: center;
   justify-content: center;
   font-size: 1.25rem;
+}
+
+/* ── Print (Activity Logs "Print" button) ────────────────────────────────
+   Elements marked .no-print (filters, pagination, action columns that are
+   only useful interactively) disappear along with the whole admin chrome,
+   leaving just the page title and the data table. */
+@media print {
+  .admin-sidebar,
+  .admin-content > header,
+  .whatsapp-fab,
+  .no-print {
+    display: none !important;
+  }
+
+  .admin-content {
+    margin: 0 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
 }

@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-lg-6">
+    <form method="POST" action="{{formAction}}" enctype="multipart/form-data">
+      {{> csrf}}
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Partner Name *</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{partner.name}}" required>
+          </div>
+
+          <div class="mb-3">
+            {{#if partner.logoUrl}}
+              <img src="{{partner.logoUrl}}" class="admin-image-preview d-block mb-2" alt="{{partner.name}}">
+            {{/if}}
+            <label for="logo" class="form-label">{{#if partner.logoUrl}}Replace Logo{{else}}Partner Logo *{{/if}}</label>
+            <input type="file" id="logo" name="logo" class="form-control" accept="image/png,image/jpeg,image/webp,image/avif" {{#unless partner}}required{{/unless}}>
+            <div class="form-text">A clean logo on a transparent or white background works best for the scrolling strip.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="websiteUrl" class="form-label">Website URL (optional)</label>
+            <input type="url" id="websiteUrl" name="websiteUrl" class="form-control" value="{{partner.websiteUrl}}" placeholder="https://example.com">
+          </div>
+
+          <div class="mb-3">
+            <label for="order" class="form-label">Display Order</label>
+            <input type="number" id="order" name="order" class="form-control" value="{{#if partner}}{{partner.order}}{{else}}0{{/if}}">
+            <div class="form-text">Lower numbers appear first in the scrolling strip.</div>
+          </div>
+
+          {{#if partner}}
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="isActive" name="isActive" {{#if partner.isActive}}checked{{/if}}>
+              <label class="form-check-label" for="isActive">Show on the website</label>
+            </div>
+          {{/if}}
+
+          <button type="submit" class="btn btn-primary px-4">{{#if partner}}Update Partner{{else}}Create Partner{{/if}}</button>
+          <a href="/admin/partners" class="btn btn-outline-secondary px-4">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+{{#if partners.length}}
+<section class="py-5">
+  <div class="container text-center mb-4">
+    <h6 class="text-uppercase text-primary fw-semibold">Trusted By</h6>
+    <h2 class="fw-bold">Brands We Work With</h2>
+  </div>
+
+  <div class="partners-marquee">
+    <div class="partners-marquee-track">
+      {{#each partners}}
+        {{#if this.websiteUrl}}
+          <a href="{{this.websiteUrl}}" target="_blank" rel="noopener noreferrer" title="{{this.name}}">
+            <img src="{{this.logoUrl}}" alt="{{this.name}}" class="partners-marquee-logo" loading="lazy">
+          </a>
+        {{else}}
+          <img src="{{this.logoUrl}}" alt="{{this.name}}" class="partners-marquee-logo" loading="lazy" title="{{this.name}}">
+        {{/if}}
+      {{/each}}
+      <!-- Second, decorative copy of the same logos — this is what makes the
+           scroll loop seamless (see .partners-marquee-track in style.css: it
+           animates exactly -50%, i.e. the width of one copy, so the instant
+           it "resets" to 0% the two copies are pixel-identical). Hidden from
+           assistive tech so the logo list isn't announced twice. -->
+      {{#each partners}}
+        {{#if this.websiteUrl}}
+          <a href="{{this.websiteUrl}}" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+            <img src="{{this.logoUrl}}" alt="" class="partners-marquee-logo" loading="lazy">
+          </a>
+        {{else}}
+          <img src="{{this.logoUrl}}" alt="" class="partners-marquee-logo" loading="lazy" aria-hidden="true">
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
+</section>
+{{/if}}

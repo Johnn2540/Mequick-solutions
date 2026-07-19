@@ -1,13 +1,53 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <form method="GET" action="/admin/audit-logs" class="d-flex gap-2">
-    <select name="action" class="form-select" onchange="this.form.submit()">
-      <option value="">All Actions</option>
-      {{#each actionOptions}}
-        <option value="{{this}}" {{#eq this ../action}}selected{{/eq}}>{{this}}</option>
-      {{/each}}
-    </select>
-  </form>
+<form method="GET" action="/admin/audit-logs" class="d-flex flex-wrap gap-2 align-items-center mb-4 no-print">
+  <input type="text" name="q" class="form-control" placeholder="Search admin, email, or description..." value="{{q}}" style="width: 240px;">
+
+  <select name="admin" class="form-select" data-autosubmit style="width: 180px;">
+    <option value="">All Admins</option>
+    {{#each admins}}
+      <option value="{{this.id}}" {{#eq this.id ../admin}}selected{{/eq}}>{{this.name}}</option>
+    {{/each}}
+  </select>
+
+  <select name="module" class="form-select" data-autosubmit style="width: 160px;">
+    <option value="">All Modules</option>
+    {{#each moduleOptions}}
+      <option value="{{this}}" {{#eq this ../module}}selected{{/eq}}>{{this}}</option>
+    {{/each}}
+  </select>
+
+  <select name="action" class="form-select" data-autosubmit style="width: 190px;">
+    <option value="">All Actions</option>
+    {{#each actionOptions}}
+      <option value="{{this}}" {{#eq this ../action}}selected{{/eq}}>{{this}}</option>
+    {{/each}}
+  </select>
+
+  <select name="status" class="form-select" data-autosubmit style="width: 140px;">
+    <option value="">Any Status</option>
+    {{#each statusOptions}}
+      <option value="{{this}}" {{#eq this ../status}}selected{{/eq}}>{{this}}</option>
+    {{/each}}
+  </select>
+
+  <label class="small text-muted mb-0">From</label>
+  <input type="date" name="from" class="form-control" value="{{from}}" style="width: 160px;">
+  <label class="small text-muted mb-0">To</label>
+  <input type="date" name="to" class="form-control" value="{{to}}" style="width: 160px;">
+
+  <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+  {{#if hasActiveFilters}}<a href="/admin/audit-logs" class="btn btn-link">Clear</a>{{/if}}
+</form>
+
+<div class="d-flex justify-content-between align-items-center mb-3 no-print">
   <span class="text-muted small">{{pagination.totalCount}} entries</span>
+  <div class="d-flex gap-2">
+    <a href="/admin/audit-logs/export?{{queryString}}" class="btn btn-sm btn-outline-primary">
+      <i class="bi bi-download me-1"></i>Export CSV
+    </a>
+    <button type="button" class="btn btn-sm btn-outline-secondary" data-print>
+      <i class="bi bi-printer me-1"></i>Print
+    </button>
+  </div>
 </div>
 
 <div class="card border-0 shadow-sm">
@@ -16,10 +56,12 @@
       <thead class="table-light">
         <tr>
           <th>When</th>
-          <th>User</th>
+          <th>Admin</th>
+          <th>Module</th>
           <th>Action</th>
           <th>Description</th>
-          <th>IP Address</th>
+          <th>Status</th>
+          <th class="no-print">IP Address</th>
         </tr>
       </thead>
       <tbody>
@@ -34,16 +76,26 @@
                 <span class="text-muted">System / Unknown</span>
               {{/if}}
             </td>
+            <td class="small text-muted">{{#if this.module}}{{this.module}}{{else}}—{{/if}}</td>
             <td><span class="badge text-bg-{{auditBadgeClass this.action}}">{{this.action}}</span></td>
             <td>{{this.description}}</td>
-            <td class="small text-muted">{{this.ipAddress}}</td>
+            <td>
+              {{#eq this.status 'FAILED'}}
+                <span class="badge text-bg-danger">Failed</span>
+              {{else}}
+                <span class="badge text-bg-success">Success</span>
+              {{/eq}}
+            </td>
+            <td class="small text-muted no-print">{{this.ipAddress}}</td>
           </tr>
         {{else}}
-          <tr><td colspan="5" class="text-center text-muted py-4">No activity recorded yet.</td></tr>
+          <tr><td colspan="7" class="text-center text-muted py-4">No activity recorded yet.</td></tr>
         {{/each}}
       </tbody>
     </table>
   </div>
 </div>
 
-{{> pagination baseUrl="/admin/audit-logs" filters=(hash action=action)}}
+<div class="no-print">
+  {{> pagination baseUrl="/admin/audit-logs" filters=(hash q=q admin=admin module=module action=action status=status from=from to=to)}}
+</div>

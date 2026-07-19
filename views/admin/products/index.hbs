@@ -45,7 +45,7 @@
               <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-pencil"></i>
               </a>
-              <form method="POST" action="/admin/products/{{this.id}}/delete" class="d-inline" onsubmit="return confirm('Delete this product? This cannot be undone.');">
+              <form method="POST" action="/admin/products/{{this.id}}/delete" class="d-inline" data-confirm="Delete this product? This cannot be undone.">
                 {{> csrf}}
                 <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
               </form>

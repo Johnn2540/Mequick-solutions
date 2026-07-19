@@ -18,6 +18,8 @@ const inventoryRoutes = require('./inventory.routes');
 const quotesRoutes = require('./quotes.routes');
 const enquiriesRoutes = require('./enquiries.routes');
 const messagesRoutes = require('./messages.routes');
+const partnersRoutes = require('./partners.routes');
+const usersRoutes = require('./users.routes');
 const profileRoutes = require('./profile.routes');
 const auditLogsRoutes = require('./auditLogs.routes');
 
@@ -56,6 +58,8 @@ router.use('/inventory', inventoryRoutes);
 router.use('/quotes', quotesRoutes);
 router.use('/enquiries', enquiriesRoutes);
 router.use('/messages', messagesRoutes);
+router.use('/partners', partnersRoutes);
+router.use('/users', usersRoutes);
 router.use('/profile', profileRoutes);
 router.use('/audit-logs', auditLogsRoutes);
 
