@@ -90,6 +90,7 @@ function toProductData(data) {
     description: data.description || null,
     specifications: data.specifications || null,
     price: data.price !== undefined && data.price !== '' ? Number(data.price) : null,
+    showPrice: data.showPrice === true || data.showPrice === 'on' || data.showPrice === 'true',
     availability: data.availability,
     featured: data.featured === true || data.featured === 'on' || data.featured === 'true',
     categoryId: data.categoryId,

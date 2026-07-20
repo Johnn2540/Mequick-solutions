@@ -45,23 +45,25 @@
           {{#if product.brand.name}}<span class="text-muted small">Brand: {{product.brand.name}}</span>{{/if}}
         </div>
 
-        <p class="h4 text-primary fw-bold mb-4">{{formatCurrency product.price}}</p>
+        {{#if product.showPrice}}
+          <p class="h4 text-primary fw-bold mb-4">{{formatCurrency product.price}}</p>
+        {{/if}}
 
         {{#if product.description}}
           <p class="text-muted mb-4">{{product.description}}</p>
         {{/if}}
 
         <div class="d-flex flex-wrap gap-3 mb-4">
+          <a href="/request-quote?product={{product.slug}}" class="btn btn-danger btn-lg px-4 fw-semibold">
+            <i class="bi bi-file-earmark-text me-2"></i>Request a Quote
+          </a>
           <a
             href="{{productEnquiryLink @root.company.whatsapp product.name}}"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-success btn-lg px-4"
+            class="btn btn-outline-success btn-lg px-4"
           >
-            <i class="bi bi-whatsapp me-2"></i>Enquire on WhatsApp
-          </a>
-          <a href="/request-quote?product={{product.slug}}" class="btn btn-danger btn-lg px-4">
-            <i class="bi bi-file-earmark-text me-2"></i>Request a Quote
+            <i class="bi bi-whatsapp me-2"></i>Inquire via WhatsApp
           </a>
         </div>
 

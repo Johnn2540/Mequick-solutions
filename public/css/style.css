@@ -339,20 +339,91 @@ a {
   flex-shrink: 0;
 }
 
-/* ── Contact Page ─────────────────────────────────────────────────────── */
+/* ── Contact Page Hero ────────────────────────────────────────────────── */
+/* Photo hero with a bottom-anchored fade — the image is full brightness at
+   the top (so it still reads as a photo) and darkens into solid var(--qs-dark)
+   by the bottom, which is what gives the overlaid heading/contact-info block
+   guaranteed contrast regardless of what's underneath in the source photo. */
 
-/* Whole-card links (contact method tiles) shouldn't look or act like plain
-   text links — the icon + hover-lift from .why-card already signal
-   "clickable", so strip the underline and keep text color neutral until
-   hover, where a touch of the brand blue confirms interactivity. */
-.contact-method-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+.contact-hero {
+  position: relative;
+  min-height: 640px;
 }
 
-.contact-method-card:hover h6 {
-  color: var(--qs-blue);
+@media (min-width: 992px) {
+  .contact-hero {
+    min-height: 520px;
+  }
+}
+
+.contact-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 30% 12%;
+}
+
+.contact-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(17, 24, 39, 0.1) 0%,
+    rgba(17, 24, 39, 0.55) 55%,
+    rgba(17, 24, 39, 0.96) 100%
+  );
+}
+
+.contact-hero-content {
+  position: relative;
+  z-index: 2;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .contact-hero-content {
+    min-height: 520px;
+    padding: 2.5rem 3rem;
+  }
+}
+
+.contact-hero-lead {
+  max-width: 560px;
+}
+
+.contact-hero-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: var(--qs-white);
+  font-size: 1.05rem;
+  backdrop-filter: blur(2px);
+}
+
+.contact-hero-item {
+  display: block;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.contact-hero-item:hover {
+  transform: translateY(-2px);
+}
+
+.contact-hero-item:hover .contact-hero-icon {
+  background: var(--qs-blue);
+  border-color: var(--qs-blue);
 }
 
 /* ── Brands ───────────────────────────────────────────────────────────── */

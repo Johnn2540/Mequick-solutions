@@ -22,6 +22,15 @@
             </div>
           </div>
 
+          <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" role="switch" id="showPrice" name="showPrice" {{#if product.showPrice}}checked{{/if}}>
+            <label class="form-check-label" for="showPrice">Show price publicly</label>
+            <div class="form-text mt-0">
+              Off by default — most medical equipment pricing is quotation-based. When off, the price above
+              stays private to your team and the site shows "Request Quote" instead.
+            </div>
+          </div>
+
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea id="description" name="description" class="form-control" rows="4">{{product.description}}</textarea>

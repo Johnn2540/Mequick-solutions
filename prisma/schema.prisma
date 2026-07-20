@@ -194,6 +194,12 @@ model Product {
   description    String?
   specifications String?
   price          Decimal?     @db.Decimal(10, 2)
+  // Medical equipment pricing is typically quotation-based (varies by
+  // quantity, warranty, installation, customer type), so the public site
+  // defaults to hiding price and always offering "Request Quote" instead.
+  // Per-product, not global: an admin can still choose to publish a price
+  // for straightforward, fixed-cost items.
+  showPrice      Boolean      @default(false)
   availability   Availability @default(IN_STOCK)
   featured       Boolean      @default(false)
 

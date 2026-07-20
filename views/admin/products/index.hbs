@@ -35,7 +35,14 @@
             </td>
             <td>{{this.category.name}}</td>
             <td>{{this.brand.name}}</td>
-            <td>{{formatCurrency this.price}}</td>
+            <td>
+              {{formatCurrency this.price}}
+              {{#if this.showPrice}}
+                <span class="badge text-bg-success-subtle text-success d-block d-xl-inline mt-1 mt-xl-0">Public</span>
+              {{else}}
+                <span class="badge text-bg-secondary-subtle text-secondary d-block d-xl-inline mt-1 mt-xl-0">Hidden</span>
+              {{/if}}
+            </td>
             <td>
               {{#eq this.availability 'IN_STOCK'}}<span class="badge text-bg-success">In Stock</span>{{/eq}}
               {{#eq this.availability 'OUT_OF_STOCK'}}<span class="badge text-bg-secondary">Out of Stock</span>{{/eq}}

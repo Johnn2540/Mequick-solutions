@@ -23,7 +23,9 @@
         <p class="small text-muted mb-2">{{this.brand.name}}</p>
       {{/if}}
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-1 mb-3">
-        <span class="fw-semibold text-primary">{{formatCurrency this.price}}</span>
+        {{#if this.showPrice}}
+          <span class="fw-semibold text-primary">{{formatCurrency this.price}}</span>
+        {{/if}}
         {{#eq this.availability 'IN_STOCK'}}
           <span class="badge text-bg-success">In Stock</span>
         {{/eq}}
@@ -40,8 +42,10 @@
            2-per-row phone/tablet width these cards are too narrow for two
            side-by-side buttons to read comfortably. -->
       <div class="mt-auto d-flex flex-column flex-md-row gap-2 product-card-actions">
-        <a href="/products/{{this.slug}}" class="btn btn-primary btn-sm flex-fill">View Details</a>
-        <a href="/request-quote?product={{this.slug}}" class="btn btn-danger btn-sm flex-fill">Request Quote</a>
+        <a href="/products/{{this.slug}}" class="btn btn-outline-primary btn-sm flex-fill">View Details</a>
+        <a href="/request-quote?product={{this.slug}}" class="btn btn-danger btn-sm flex-fill">
+          <i class="bi bi-file-earmark-text me-1"></i>Request Quote
+        </a>
       </div>
     </div>
   </div>

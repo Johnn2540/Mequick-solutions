@@ -1,64 +1,64 @@
+<section class="py-5 pb-0">
+  <div class="container">
+    <div class="contact-hero rounded-4 overflow-hidden shadow">
+      <img src="/images/image1.png" alt="Get in touch with {{company.name}}" class="contact-hero-img">
+      <div class="contact-hero-overlay"></div>
+
+      <div class="contact-hero-content">
+        <h6 class="text-uppercase text-primary fw-semibold mb-2">Get In Touch</h6>
+        <h1 class="fw-bold text-white mb-3">Contact Us</h1>
+        <p class="text-white-50 mb-4 contact-hero-lead">
+          Have a question or need help finding the right equipment? Reach out and our team will get back to you
+          within 24 hours.
+        </p>
+
+        <div class="row g-3 g-lg-4">
+          <div class="col-6 col-lg-3">
+            <a
+              href="https://www.google.com/maps?q={{encodeUri company.address}}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-hero-item"
+            >
+              <span class="contact-hero-icon"><i class="bi bi-geo-alt-fill"></i></span>
+              <span class="d-block fw-semibold text-white small mt-2 mb-1">Visit Us</span>
+              <span class="d-block text-white-50 small">{{company.address}}</span>
+            </a>
+          </div>
+          <div class="col-6 col-lg-3">
+            <a href="tel:{{company.phone}}" class="contact-hero-item">
+              <span class="contact-hero-icon"><i class="bi bi-telephone-fill"></i></span>
+              <span class="d-block fw-semibold text-white small mt-2 mb-1">Call Us</span>
+              <span class="d-block text-white-50 small">{{company.phone}}</span>
+            </a>
+          </div>
+          <div class="col-6 col-lg-3">
+            <a
+              href="{{waLink company.whatsapp}}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-hero-item"
+            >
+              <span class="contact-hero-icon"><i class="bi bi-whatsapp"></i></span>
+              <span class="d-block fw-semibold text-white small mt-2 mb-1">WhatsApp</span>
+              <span class="d-block text-white-50 small">{{company.whatsapp}}</span>
+            </a>
+          </div>
+          <div class="col-6 col-lg-3">
+            <a href="mailto:{{company.email}}" class="contact-hero-item">
+              <span class="contact-hero-icon"><i class="bi bi-envelope-fill"></i></span>
+              <span class="d-block fw-semibold text-white small mt-2 mb-1">Email Us</span>
+              <span class="d-block text-white-50 small text-break">{{company.email}}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="py-5">
   <div class="container">
-    <div class="text-center mb-5">
-      <h6 class="text-uppercase text-primary fw-semibold">Get In Touch</h6>
-      <h1 class="fw-bold">Contact Us</h1>
-      <p class="text-muted col-lg-7 mx-auto">
-        Have a question or need help finding the right equipment? Reach out and our team will get back to you
-        within 24 hours.
-      </p>
-    </div>
-
-    <!-- Quick contact methods -->
-    <div class="row g-3 mb-4">
-      <div class="col-6 col-lg-3">
-        <a
-          href="https://www.google.com/maps?q={{encodeUri company.address}}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card why-card contact-method-card border-0 shadow-sm h-100"
-        >
-          <div class="card-body text-center p-3">
-            <div class="why-icon mb-2"><i class="bi bi-geo-alt-fill"></i></div>
-            <h6 class="fw-semibold small mb-1">Visit Us</h6>
-            <p class="small text-muted mb-0">{{company.address}}</p>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-lg-3">
-        <a href="tel:{{company.phone}}" class="card why-card contact-method-card border-0 shadow-sm h-100">
-          <div class="card-body text-center p-3">
-            <div class="why-icon mb-2"><i class="bi bi-telephone-fill"></i></div>
-            <h6 class="fw-semibold small mb-1">Call Us</h6>
-            <p class="small text-muted mb-0">{{company.phone}}</p>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-lg-3">
-        <a
-          href="{{waLink company.whatsapp}}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card why-card contact-method-card border-0 shadow-sm h-100"
-        >
-          <div class="card-body text-center p-3">
-            <div class="why-icon mb-2"><i class="bi bi-whatsapp"></i></div>
-            <h6 class="fw-semibold small mb-1">WhatsApp</h6>
-            <p class="small text-muted mb-0">{{company.whatsapp}}</p>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-lg-3">
-        <a href="mailto:{{company.email}}" class="card why-card contact-method-card border-0 shadow-sm h-100">
-          <div class="card-body text-center p-3">
-            <div class="why-icon mb-2"><i class="bi bi-envelope-fill"></i></div>
-            <h6 class="fw-semibold small mb-1">Email Us</h6>
-            <p class="small text-muted mb-0 text-break">{{company.email}}</p>
-          </div>
-        </a>
-      </div>
-    </div>
-
     <div class="row g-4">
       <!-- Map + Business Hours -->
       <div class="col-lg-5">
