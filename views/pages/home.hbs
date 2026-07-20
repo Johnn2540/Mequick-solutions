@@ -23,6 +23,26 @@
           </a>
         </div>
       </div>
+
+      <!-- Hidden below `lg` — a large portrait photo stacked under the hero
+           text would push the actual useful content (CTAs, categories)
+           much further down the page on mobile, working against the
+           compact-mobile-first approach the rest of the site follows. -->
+      <div class="col-lg-5 d-none d-lg-block">
+        <div class="hero-photo-stage">
+          <div class="hero-photo-decor"></div>
+          <div class="hero-photo-frame">
+            <img src="/images/image2.png" alt="Healthcare professional from the {{company.name}} network" class="hero-photo">
+          </div>
+          <div class="hero-photo-badge">
+            <span class="hero-photo-badge-icon"><i class="bi bi-patch-check-fill"></i></span>
+            <span>
+              <span class="d-block fw-bold small text-dark">Genuine &amp; Certified</span>
+              <span class="d-block text-muted hero-photo-badge-sub">Equipment You Can Trust</span>
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

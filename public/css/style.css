@@ -194,6 +194,84 @@ a {
   min-height: 50vh;
 }
 
+/* ── Hero Photo ───────────────────────────────────────────────────────── */
+/* The source photo carries its own light studio backdrop rather than a
+   transparent background, so instead of fighting that edge against the
+   dark hero gradient, the frame embraces it — a white card "owns" the
+   light background as part of the design (a deliberate framed portrait,
+   not an image floating with a mismatched edge). A soft blurred color
+   blob behind adds depth, and a floating trust badge overlapping the
+   frame's corner is the kind of layered composition that reads as
+   "designed," not "a stock photo was dropped in." */
+
+.hero-photo-stage {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.hero-photo-decor {
+  position: absolute;
+  z-index: 1;
+  top: -32px;
+  right: -28px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: var(--qs-red);
+  opacity: 0.25;
+  filter: blur(6px);
+}
+
+.hero-photo-frame {
+  position: relative;
+  z-index: 2;
+  background: var(--qs-white);
+  border-radius: 1.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+}
+
+.hero-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1.1rem;
+}
+
+.hero-photo-badge {
+  position: absolute;
+  z-index: 3;
+  left: -20px;
+  bottom: 32px;
+  max-width: 210px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--qs-white);
+  border-radius: 0.85rem;
+  padding: 0.6rem 0.85rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+
+.hero-photo-badge-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--qs-blue-tint);
+  color: var(--qs-blue);
+  font-size: 1rem;
+}
+
+.hero-photo-badge-sub {
+  font-size: 0.72rem;
+  line-height: 1.2;
+}
+
 /* ── Hero Trust Strip ─────────────────────────────────────────────────── */
 /* A white card straddling the hero's bottom edge — negative margin pulls
    it up into the gradient, positive z-index keeps it above it. Common
