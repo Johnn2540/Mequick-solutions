@@ -34,7 +34,7 @@
               {{#if this.featured}}<span class="badge text-bg-primary">Featured</span>{{/if}}
             </td>
             <td>{{this.category.name}}</td>
-            <td>{{this.brand.name}}</td>
+            <td>{{#if this.brand.name}}{{this.brand.name}}{{else}}<span class="text-muted">—</span>{{/if}}</td>
             <td>
               {{formatCurrency this.price}}
               {{#if this.showPrice}}

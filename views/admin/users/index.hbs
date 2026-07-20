@@ -48,7 +48,7 @@
                 <span class="badge text-bg-secondary">Inactive</span>
               {{/if}}
             </td>
-            <td class="small text-muted">{{#if this.lastLogin}}{{this.lastLogin}}{{else}}Never{{/if}}</td>
+            <td class="small text-muted">{{#if this.lastLogin}}{{formatDate this.lastLogin}}{{else}}Never{{/if}}</td>
             <td class="text-end">
               <a href="/admin/users/{{this.id}}/activity" class="btn btn-sm btn-outline-secondary" title="View activity">
                 <i class="bi bi-clock-history"></i>

@@ -26,6 +26,28 @@ function registerHelpers(hbs) {
     }).format(amount);
   });
 
+  // {{formatDate date}} → "20 Jul 2026, 4:30 PM". Without this, Handlebars
+  // just calls a raw Date's .toString(), which dumps the verbose
+  // "Mon Jul 20 2026 16:30:07 GMT+0300 (East Africa Time)" JS format
+  // straight into the page — that was happening unformatted in every admin
+  // table with a timestamp column before this helper existed. Timezone is
+  // pinned to the company's own (Africa/Nairobi) rather than left to
+  // whatever the server process's local timezone happens to be, so it
+  // reads the same in production (likely UTC on Vercel) as it does here.
+  hbs.registerHelper('formatDate', function (date) {
+    if (!date) return '';
+    const parsed = new Date(date);
+    if (Number.isNaN(parsed.getTime())) return '';
+    return new Intl.DateTimeFormat('en-KE', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZone: 'Africa/Nairobi',
+    }).format(parsed);
+  });
+
   // {{truncate text 120}}
   hbs.registerHelper('truncate', function (text, length) {
     if (!text) return '';

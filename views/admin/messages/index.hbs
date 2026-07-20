@@ -18,7 +18,7 @@
             </td>
             <td>{{this.name}}</td>
             <td>{{#if this.subject}}{{this.subject}}{{else}}<span class="text-muted">(no subject)</span>{{/if}}</td>
-            <td class="small text-muted">{{this.createdAt}}</td>
+            <td class="small text-muted">{{formatDate this.createdAt}}</td>
             <td class="text-end">
               <a href="/admin/messages/{{this.id}}" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-eye"></i>

@@ -37,13 +37,13 @@
           <div class="card-body">
             <dl class="row mb-0 small">
               <dt class="col-6 text-muted fw-normal">Last Login</dt>
-              <dd class="col-6 mb-2">{{#if user.lastLogin}}{{user.lastLogin}}{{else}}Never{{/if}}</dd>
+              <dd class="col-6 mb-2">{{#if user.lastLogin}}{{formatDate user.lastLogin}}{{else}}Never{{/if}}</dd>
               <dt class="col-6 text-muted fw-normal">Last Logout</dt>
-              <dd class="col-6 mb-2">{{#if lastLogout}}{{lastLogout}}{{else}}—{{/if}}</dd>
+              <dd class="col-6 mb-2">{{#if lastLogout}}{{formatDate lastLogout}}{{else}}—{{/if}}</dd>
               <dt class="col-6 text-muted fw-normal">Last Active</dt>
-              <dd class="col-6 mb-2">{{#if lastActive}}{{lastActive}}{{else}}Never{{/if}}</dd>
+              <dd class="col-6 mb-2">{{#if lastActive}}{{formatDate lastActive}}{{else}}Never{{/if}}</dd>
               <dt class="col-6 text-muted fw-normal">Member Since</dt>
-              <dd class="col-6 mb-0">{{user.createdAt}}</dd>
+              <dd class="col-6 mb-0">{{formatDate user.createdAt}}</dd>
             </dl>
           </div>
         </div>
@@ -91,7 +91,7 @@
       <tbody>
         {{#each logs}}
           <tr>
-            <td class="small text-muted text-nowrap">{{this.createdAt}}</td>
+            <td class="small text-muted text-nowrap">{{formatDate this.createdAt}}</td>
             <td class="small text-muted">{{#if this.module}}{{this.module}}{{else}}—{{/if}}</td>
             <td><span class="badge text-bg-{{auditBadgeClass this.action}}">{{this.action}}</span></td>
             <td>{{this.description}}</td>

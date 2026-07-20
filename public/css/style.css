@@ -1201,6 +1201,19 @@ a {
   font-size: 1.25rem;
 }
 
+/* The dashboard's second row of stat cards (Quote Requests, Enquiries,
+   Messages, Low Stock) are actual links through to their module — without
+   a hover cue they look identical to the plain, non-interactive stat
+   cards above them, so there's no visual signal they're clickable. */
+.stat-card-link {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.12) !important;
+}
+
 /* ── Print (Activity Logs "Print" button) ────────────────────────────────
    Elements marked .no-print (filters, pagination, action columns that are
    only useful interactively) disappear along with the whole admin chrome,

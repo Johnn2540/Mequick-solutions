@@ -17,7 +17,7 @@
         <p class="mb-1"><strong>{{message.name}}</strong></p>
         <p class="mb-1"><i class="bi bi-envelope me-1"></i>{{message.email}}</p>
         {{#if message.phone}}<p class="mb-1"><i class="bi bi-telephone me-1"></i>{{message.phone}}</p>{{/if}}
-        <p class="text-muted small mb-0">Received {{message.createdAt}}</p>
+        <p class="text-muted small mb-0">Received {{formatDate message.createdAt}}</p>
       </div>
     </div>
 

@@ -37,9 +37,9 @@
             {{/if}}
           </dd>
           <dt class="col-5 text-muted fw-normal">Last Login</dt>
-          <dd class="col-7 mb-2">{{#if profileUser.lastLogin}}{{profileUser.lastLogin}}{{else}}Never{{/if}}</dd>
+          <dd class="col-7 mb-2">{{#if profileUser.lastLogin}}{{formatDate profileUser.lastLogin}}{{else}}Never{{/if}}</dd>
           <dt class="col-5 text-muted fw-normal">Member Since</dt>
-          <dd class="col-7 mb-0">{{profileUser.createdAt}}</dd>
+          <dd class="col-7 mb-0">{{formatDate profileUser.createdAt}}</dd>
         </dl>
       </div>
     </div>
@@ -102,7 +102,7 @@
           <tbody>
             {{#each loginHistory}}
               <tr>
-                <td class="small">{{this.createdAt}}</td>
+                <td class="small">{{formatDate this.createdAt}}</td>
                 <td>
                   {{#if this.success}}
                     <span class="badge text-bg-success">Success</span>

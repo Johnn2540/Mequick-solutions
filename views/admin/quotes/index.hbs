@@ -31,7 +31,7 @@
             <td>{{this.phone}}</td>
             <td>{{this.items.length}}</td>
             <td><span class="badge text-bg-secondary">{{this.status}}</span></td>
-            <td class="small text-muted">{{this.createdAt}}</td>
+            <td class="small text-muted">{{formatDate this.createdAt}}</td>
             <td class="text-end">
               <a href="/admin/quotes/{{this.id}}" class="btn btn-sm btn-outline-secondary">
                 <i class="bi bi-eye"></i>

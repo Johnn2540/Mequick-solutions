@@ -1,5 +1,5 @@
 <form method="GET" action="/admin/audit-logs" class="d-flex flex-wrap gap-2 align-items-center mb-4 no-print">
-  <input type="text" name="q" class="form-control" placeholder="Search admin, email, or description..." value="{{q}}" style="width: 240px;">
+  <input type="text" name="q" class="form-control" placeholder="Search admin, email, or description..." value="{{q}}" style="width: 290px;">
 
   <select name="admin" class="form-select" data-autosubmit style="width: 180px;">
     <option value="">All Admins</option>
@@ -67,7 +67,7 @@
       <tbody>
         {{#each logs}}
           <tr>
-            <td class="small text-muted text-nowrap">{{this.createdAt}}</td>
+            <td class="small text-muted text-nowrap">{{formatDate this.createdAt}}</td>
             <td>
               {{#if this.user.name}}
                 {{this.user.name}}

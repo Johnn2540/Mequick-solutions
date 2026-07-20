@@ -47,7 +47,7 @@
 
 <div class="row g-4 mb-4">
   <div class="col-lg-3 col-md-6">
-    <a href="/admin/quotes" class="card border-0 shadow-sm text-decoration-none">
+    <a href="/admin/quotes" class="card stat-card-link border-0 shadow-sm text-decoration-none">
       <div class="card-body d-flex align-items-center gap-3">
         <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-file-earmark-text"></i></div>
         <div>
@@ -58,7 +58,7 @@
     </a>
   </div>
   <div class="col-lg-3 col-md-6">
-    <a href="/admin/enquiries" class="card border-0 shadow-sm text-decoration-none">
+    <a href="/admin/enquiries" class="card stat-card-link border-0 shadow-sm text-decoration-none">
       <div class="card-body d-flex align-items-center gap-3">
         <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-chat-dots"></i></div>
         <div>
@@ -69,7 +69,7 @@
     </a>
   </div>
   <div class="col-lg-3 col-md-6">
-    <a href="/admin/messages" class="card border-0 shadow-sm text-decoration-none">
+    <a href="/admin/messages" class="card stat-card-link border-0 shadow-sm text-decoration-none">
       <div class="card-body d-flex align-items-center gap-3">
         <div class="stat-icon bg-info-subtle text-info"><i class="bi bi-envelope"></i></div>
         <div>
@@ -80,7 +80,7 @@
     </a>
   </div>
   <div class="col-lg-3 col-md-6">
-    <a href="/admin/inventory?lowStock=1" class="card border-0 shadow-sm text-decoration-none">
+    <a href="/admin/inventory?lowStock=1" class="card stat-card-link border-0 shadow-sm text-decoration-none">
       <div class="card-body d-flex align-items-center gap-3">
         <div class="stat-icon bg-danger-subtle text-danger"><i class="bi bi-exclamation-diamond"></i></div>
         <div>
@@ -128,7 +128,7 @@
                   {{#eq this.availability 'OUT_OF_STOCK'}}<span class="badge text-bg-secondary">Out of Stock</span>{{/eq}}
                   {{#eq this.availability 'PREORDER'}}<span class="badge text-bg-warning">Pre-order</span>{{/eq}}
                 </td>
-                <td class="text-muted small">{{this.createdAt}}</td>
+                <td class="text-muted small">{{formatDate this.createdAt}}</td>
               </tr>
             {{else}}
               <tr><td colspan="4" class="text-center text-muted py-4">No products yet.</td></tr>

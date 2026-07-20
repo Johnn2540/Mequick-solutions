@@ -32,7 +32,7 @@
       <tbody>
         {{#each logs}}
           <tr>
-            <td class="text-muted small">{{this.createdAt}}</td>
+            <td class="text-muted small">{{formatDate this.createdAt}}</td>
             <td><span class="badge text-bg-secondary">{{this.changeType}}</span></td>
             <td class="{{#gt this.quantityChange 0}}text-success{{/gt}}">
               {{#gt this.quantityChange 0}}+{{/gt}}{{this.quantityChange}}
