@@ -5,31 +5,39 @@
       <div class="contact-hero-overlay"></div>
 
       <div class="contact-hero-content">
-        <h6 class="text-uppercase text-primary fw-semibold mb-2">Get In Touch</h6>
-        <h1 class="fw-bold text-white mb-3">Contact Us</h1>
-        <p class="text-white-50 mb-4 contact-hero-lead">
-          Have a question or need help finding the right equipment? Reach out and our team will get back to you
-          within 24 hours.
-        </p>
+        <div class="contact-hero-intro">
+          <h6 class="text-uppercase text-primary fw-semibold mb-2">Get In Touch</h6>
+          <h1 class="fw-bold text-white mb-3">Contact Us</h1>
+          <p class="text-white-50 mb-0 contact-hero-lead">
+            Have a question or need help finding the right equipment? Reach out and our team will get back to you
+            within 24 hours.
+          </p>
+        </div>
 
-        <div class="row g-3 g-lg-4">
+        <div class="contact-hero-divider"></div>
+
+        <div class="row g-2 g-lg-3">
           <div class="col-6 col-lg-3">
             <a
               href="https://www.google.com/maps?q={{encodeUri company.address}}"
               target="_blank"
               rel="noopener noreferrer"
-              class="contact-hero-item"
+              class="contact-hero-chip h-100"
             >
               <span class="contact-hero-icon"><i class="bi bi-geo-alt-fill"></i></span>
-              <span class="d-block fw-semibold text-white small mt-2 mb-1">Visit Us</span>
-              <span class="d-block text-white-50 small">{{company.address}}</span>
+              <span class="contact-hero-chip-text">
+                <span class="d-block fw-semibold text-white small mb-1">Visit Us</span>
+                <span class="text-white-50 small contact-hero-clamp">{{company.address}}</span>
+              </span>
             </a>
           </div>
           <div class="col-6 col-lg-3">
-            <a href="tel:{{company.phone}}" class="contact-hero-item">
+            <a href="tel:{{company.phone}}" class="contact-hero-chip h-100">
               <span class="contact-hero-icon"><i class="bi bi-telephone-fill"></i></span>
-              <span class="d-block fw-semibold text-white small mt-2 mb-1">Call Us</span>
-              <span class="d-block text-white-50 small">{{company.phone}}</span>
+              <span class="contact-hero-chip-text">
+                <span class="d-block fw-semibold text-white small mb-1">Call Us</span>
+                <span class="text-white-50 small contact-hero-clamp">{{company.phone}}</span>
+              </span>
             </a>
           </div>
           <div class="col-6 col-lg-3">
@@ -37,18 +45,22 @@
               href="{{waLink company.whatsapp}}"
               target="_blank"
               rel="noopener noreferrer"
-              class="contact-hero-item"
+              class="contact-hero-chip h-100"
             >
               <span class="contact-hero-icon"><i class="bi bi-whatsapp"></i></span>
-              <span class="d-block fw-semibold text-white small mt-2 mb-1">WhatsApp</span>
-              <span class="d-block text-white-50 small">{{company.whatsapp}}</span>
+              <span class="contact-hero-chip-text">
+                <span class="d-block fw-semibold text-white small mb-1">WhatsApp</span>
+                <span class="text-white-50 small contact-hero-clamp">{{company.whatsapp}}</span>
+              </span>
             </a>
           </div>
           <div class="col-6 col-lg-3">
-            <a href="mailto:{{company.email}}" class="contact-hero-item">
+            <a href="mailto:{{company.email}}" class="contact-hero-chip h-100">
               <span class="contact-hero-icon"><i class="bi bi-envelope-fill"></i></span>
-              <span class="d-block fw-semibold text-white small mt-2 mb-1">Email Us</span>
-              <span class="d-block text-white-50 small text-break">{{company.email}}</span>
+              <span class="contact-hero-chip-text">
+                <span class="d-block fw-semibold text-white small mb-1">Email Us</span>
+                <span class="text-white-50 small contact-hero-clamp">{{company.email}}</span>
+              </span>
             </a>
           </div>
         </div>

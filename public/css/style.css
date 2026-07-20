@@ -397,9 +397,22 @@ a {
   max-width: 560px;
 }
 
+/* Short accent rule between the intro copy and the contact-method grid —
+   same "small colored underline as a section marker" idea as
+   .footer-heading::after, so the hero visibly separates into two groups
+   (who we are / how to reach us) instead of one long run-on stack. */
+.contact-hero-divider {
+  width: 48px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--qs-blue);
+  margin: 1.25rem 0;
+}
+
 .contact-hero-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -407,23 +420,54 @@ a {
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: var(--qs-white);
-  font-size: 1.05rem;
-  backdrop-filter: blur(2px);
+  font-size: 1rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.contact-hero-item {
-  display: block;
+/* Bounded "glass" chips instead of loose floating text — gives every
+   item a consistent box to sit in regardless of how many lines its value
+   wraps to (the address is much longer than a phone number), so the row
+   reads as tidy aligned cards rather than ragged text of different
+   heights. Frosted background keeps them legible over any part of the
+   photo without needing a fully opaque fill. */
+.contact-hero-chip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.65rem;
+  padding: 0.65rem 0.75rem;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  backdrop-filter: blur(6px);
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
-.contact-hero-item:hover {
+.contact-hero-chip:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
   transform: translateY(-2px);
 }
 
-.contact-hero-item:hover .contact-hero-icon {
+.contact-hero-chip:hover .contact-hero-icon {
   background: var(--qs-blue);
   border-color: var(--qs-blue);
+}
+
+.contact-hero-chip-text {
+  min-width: 0;
+}
+
+/* Caps the value line (the address in particular) at 2 lines so every
+   chip stays a predictable height no matter how long the underlying
+   text is — the full address is always available on the map/footer
+   below, so nothing is actually lost here, just kept scannable. */
+.contact-hero-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 /* ── Brands ───────────────────────────────────────────────────────────── */
