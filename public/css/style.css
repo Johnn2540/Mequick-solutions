@@ -366,6 +366,10 @@ a {
   object-position: 65% 82%;
 }
 
+.services-hero .photo-hero-img {
+  object-position: 62% 30%;
+}
+
 .photo-hero-overlay {
   position: absolute;
   inset: 0;
@@ -565,6 +569,30 @@ a {
 
 .cta-section {
   background: linear-gradient(135deg, var(--qs-dark) 0%, var(--qs-blue-darker) 100%);
+}
+
+/* ── About Hero ───────────────────────────────────────────────────────── */
+/* image4.png is the company logo, not a photo — the dark-fade-with-
+   overlaid-text treatment used on Home/Services/Contact doesn't apply
+   here (there's no "photo" to fade, and the logo already carries its own
+   text, so stacking more text on top of it would just clutter). Instead
+   the logo sits in its own clean white frame beside the copy, on the
+   same brand gradient .cta-section already uses elsewhere. */
+
+.about-hero-logo-frame {
+  display: inline-block;
+  max-width: 260px;
+  width: 100%;
+  background: var(--qs-white);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+.about-hero-logo {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* ── Footer ───────────────────────────────────────────────────────────── */

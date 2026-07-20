@@ -1,14 +1,23 @@
+<section class="py-5 pb-0">
+  <div class="container">
+    <div class="photo-hero services-hero rounded-4 overflow-hidden shadow">
+      <img src="/images/image3.png" alt="{{company.name}} field service and equipment support" class="photo-hero-img">
+      <div class="photo-hero-overlay"></div>
+
+      <div class="photo-hero-content">
+        <h6 class="text-uppercase text-primary fw-semibold mb-2">What We Do</h6>
+        <h1 class="fw-bold text-white mb-3">Our Services</h1>
+        <p class="text-white-50 mb-0 photo-hero-lead">
+          Beyond supplying equipment, {{company.name}} supports your facility end-to-end — from consultation
+          and installation to training and ongoing maintenance.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="py-5">
   <div class="container">
-    <div class="text-center mb-5">
-      <h6 class="text-uppercase text-primary fw-semibold">What We Do</h6>
-      <h1 class="fw-bold">Our Services</h1>
-      <p class="text-muted col-lg-7 mx-auto">
-        Beyond supplying equipment, {{company.name}} supports your facility end-to-end — from consultation
-        and installation to training and ongoing maintenance.
-      </p>
-    </div>
-
     <div class="row g-4">
       {{#each services}}
         <div class="col-lg-4 col-md-6">
