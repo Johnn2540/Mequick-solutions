@@ -1,0 +1,65 @@
+{{#if testimonials.length}}
+<section class="py-5 bg-light" id="testimonials">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h6 class="text-uppercase text-primary fw-semibold">Testimonials</h6>
+      <h2 class="fw-bold">What Our Customers Say</h2>
+      <p class="text-muted col-lg-6 mx-auto">
+        Trusted by hospitals, clinics, and laboratories across Kenya.
+      </p>
+    </div>
+
+    <div id="testimonialsCarousel" class="carousel slide testimonial-carousel" data-bs-ride="carousel" data-bs-interval="6000">
+      {{#gt testimonials.length 1}}
+        <div class="carousel-indicators testimonial-carousel-indicators">
+          {{#each testimonials}}
+            <button
+              type="button"
+              data-bs-target="#testimonialsCarousel"
+              data-bs-slide-to="{{@index}}"
+              {{#eq @index 0}}class="active" aria-current="true"{{/eq}}
+              aria-label="Testimonial {{inc @index}}"
+            ></button>
+          {{/each}}
+        </div>
+      {{/gt}}
+
+      <div class="carousel-inner">
+        {{#each testimonials}}
+          <div class="carousel-item {{#eq @index 0}}active{{/eq}}">
+            <div class="testimonial-card mx-auto text-center">
+              <div class="testimonial-quote-icon"><i class="bi bi-quote"></i></div>
+              <p class="testimonial-quote">&ldquo;{{this.quote}}&rdquo;</p>
+              <div class="text-warning mb-3">{{{stars this.rating}}}</div>
+              <div class="d-flex align-items-center justify-content-center gap-3">
+                {{#if this.photoUrl}}
+                  <img src="{{this.photoUrl}}" class="testimonial-avatar" alt="{{this.customerName}}" loading="lazy">
+                {{else}}
+                  <div class="testimonial-avatar testimonial-avatar-placeholder">
+                    <i class="bi bi-person"></i>
+                  </div>
+                {{/if}}
+                <div class="text-start">
+                  <div class="fw-bold">{{this.customerName}}</div>
+                  {{#if this.customerTitle}}<div class="small text-muted">{{this.customerTitle}}</div>{{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+
+      {{#gt testimonials.length 1}}
+        <button class="testimonial-carousel-control testimonial-carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
+          <i class="bi bi-chevron-left"></i>
+          <span class="visually-hidden">Previous testimonial</span>
+        </button>
+        <button class="testimonial-carousel-control testimonial-carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
+          <i class="bi bi-chevron-right"></i>
+          <span class="visually-hidden">Next testimonial</span>
+        </button>
+      {{/gt}}
+    </div>
+  </div>
+</section>
+{{/if}}

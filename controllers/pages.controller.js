@@ -5,6 +5,7 @@ const productService = require('../services/product.service');
 const messageService = require('../services/message.service');
 const quoteService = require('../services/quote.service');
 const partnerService = require('../services/partner.service');
+const testimonialService = require('../services/testimonial.service');
 
 // Bootstrap Icons keyed by category slug, purely cosmetic for the homepage
 // grid. Any category without a match here falls back to a generic icon.
@@ -42,10 +43,11 @@ const SERVICES = [
 
 // GET /
 exports.renderHome = asyncHandler(async (req, res) => {
-  const [categories, featuredProducts, partners] = await Promise.all([
+  const [categories, featuredProducts, partners, testimonials] = await Promise.all([
     categoryService.getAllCategories(),
     productService.getFeaturedProducts(8),
     partnerService.getActivePartners(),
+    testimonialService.getActiveTestimonials(),
   ]);
 
   const categoriesWithIcons = categories.map((category) => ({
@@ -61,6 +63,7 @@ exports.renderHome = asyncHandler(async (req, res) => {
     featuredProducts,
     whyChooseUs: WHY_CHOOSE_US,
     partners,
+    testimonials,
   });
 });
 

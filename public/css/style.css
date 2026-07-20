@@ -565,6 +565,132 @@ a {
   }
 }
 
+/* ── Testimonials Carousel ────────────────────────────────────────────── */
+/* A single centered card per slide rather than a full-bleed image
+   carousel, so Bootstrap's default (transparent, overlay-on-photo)
+   controls/indicators don't apply here — both are rebuilt as visible
+   standalone elements instead. Autoplay is paused for
+   prefers-reduced-motion users via public/js/main.js (same care already
+   given to the partners marquee above). */
+
+.testimonial-carousel {
+  padding-bottom: 2.5rem;
+}
+
+.testimonial-card {
+  max-width: 680px;
+  background: var(--qs-white);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2.5rem rgba(31, 149, 211, 0.12);
+  padding: 2.5rem 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .testimonial-card {
+    padding: 3rem;
+  }
+}
+
+.testimonial-quote-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--qs-blue-tint);
+  color: var(--qs-blue);
+  font-size: 1.5rem;
+}
+
+.testimonial-quote {
+  font-size: 1.1rem;
+  color: var(--qs-dark);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.testimonial-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.testimonial-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--qs-light);
+  color: #94a3b8;
+  font-size: 1.4rem;
+}
+
+/* Small circular dots below the card instead of Bootstrap's default wide
+   rectangular bars (designed to overlay a photo, not sit under a card). */
+.testimonial-carousel-indicators {
+  position: static;
+  margin: 1.75rem 0 0;
+}
+
+.testimonial-carousel-indicators [data-bs-target] {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  border: none;
+  opacity: 1;
+  margin: 0 4px;
+}
+
+.testimonial-carousel-indicators .active {
+  background-color: var(--qs-blue);
+}
+
+/* Visible circular prev/next buttons flanking the card, rather than
+   Bootstrap's transparent full-height overlay arrows (also designed for
+   a photo carousel). Hidden below `lg` — the card is full-width there
+   and the indicator dots are enough for navigation without crowding a
+   narrow viewport. */
+.testimonial-carousel-control {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--qs-white);
+  color: var(--qs-blue);
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.1);
+  opacity: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.testimonial-carousel-control:hover {
+  background: var(--qs-blue);
+  color: var(--qs-white);
+}
+
+.testimonial-carousel-control-prev {
+  left: 0;
+}
+
+.testimonial-carousel-control-next {
+  right: 0;
+}
+
+@media (min-width: 992px) {
+  .testimonial-carousel-control {
+    display: flex;
+  }
+}
+
 /* ── CTA ──────────────────────────────────────────────────────────────── */
 
 .cta-section {

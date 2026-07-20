@@ -113,6 +113,24 @@ function registerHelpers(hbs) {
     return match ? match.msg : '';
   });
 
+  // {{inc @index}} → @index + 1, for 1-based labels/numbering in a loop.
+  hbs.registerHelper('inc', function (value) {
+    return Number(value) + 1;
+  });
+
+  // {{{stars rating}}} → filled/empty Bootstrap star icons for a 1-5 rating.
+  // Triple-stash required (returns markup, not escaped text). Anything
+  // falsy renders 5 empty stars rather than nothing, so a testimonial
+  // without a rating set still shows a consistent-looking row.
+  hbs.registerHelper('stars', function (rating) {
+    const filled = Math.max(0, Math.min(5, Number(rating) || 0));
+    let html = '';
+    for (let i = 0; i < 5; i += 1) {
+      html += i < filled ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+    }
+    return new hbs.SafeString(html);
+  });
+
   // {{#if (any a b c)}} — true if any argument is truthy. Plain (not block)
   // so it can be used as a subexpression inside {{#if}}.
   hbs.registerHelper('any', function (...args) {

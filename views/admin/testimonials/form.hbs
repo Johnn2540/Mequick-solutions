@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-lg-6">
+    <form method="POST" action="{{formAction}}" enctype="multipart/form-data">
+      {{> csrf}}
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="customerName" class="form-label">Customer Name *</label>
+            <input type="text" id="customerName" name="customerName" class="form-control" value="{{testimonial.customerName}}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="customerTitle" class="form-label">Title / Facility (optional)</label>
+            <input type="text" id="customerTitle" name="customerTitle" class="form-control" value="{{testimonial.customerTitle}}" placeholder="e.g. Procurement Manager, Nairobi Hospital">
+          </div>
+
+          <div class="mb-3">
+            {{#if testimonial.photoUrl}}
+              <img src="{{testimonial.photoUrl}}" class="admin-image-preview d-block mb-2" alt="{{testimonial.customerName}}" style="border-radius: 50%;">
+            {{/if}}
+            <label for="photo" class="form-label">{{#if testimonial.photoUrl}}Replace Photo{{else}}Customer Photo (optional){{/if}}</label>
+            <input type="file" id="photo" name="photo" class="form-control" accept="image/png,image/jpeg,image/webp,image/avif">
+            <div class="form-text">A square headshot works best.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="quote" class="form-label">Testimonial Quote *</label>
+            <textarea id="quote" name="quote" class="form-control" rows="4" required>{{testimonial.quote}}</textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <select id="rating" name="rating" class="form-select">
+                <option value="">No rating</option>
+                <option value="5" {{#eq testimonial.rating 5}}selected{{/eq}}>5 — Excellent</option>
+                <option value="4" {{#eq testimonial.rating 4}}selected{{/eq}}>4 — Very Good</option>
+                <option value="3" {{#eq testimonial.rating 3}}selected{{/eq}}>3 — Good</option>
+                <option value="2" {{#eq testimonial.rating 2}}selected{{/eq}}>2 — Fair</option>
+                <option value="1" {{#eq testimonial.rating 1}}selected{{/eq}}>1 — Poor</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="order" class="form-label">Display Order</label>
+              <input type="number" id="order" name="order" class="form-control" value="{{#if testimonial}}{{testimonial.order}}{{else}}0{{/if}}">
+              <div class="form-text">Lower numbers appear first.</div>
+            </div>
+          </div>
+
+          {{#if testimonial}}
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" id="isActive" name="isActive" {{#if testimonial.isActive}}checked{{/if}}>
+              <label class="form-check-label" for="isActive">Show on the website</label>
+            </div>
+          {{/if}}
+
+          <button type="submit" class="btn btn-primary px-4">{{#if testimonial}}Update Testimonial{{else}}Create Testimonial{{/if}}</button>
+          <a href="/admin/testimonials" class="btn btn-outline-secondary px-4">Cancel</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

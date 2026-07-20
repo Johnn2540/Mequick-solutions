@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h6 class="text-muted mb-0">{{testimonials.length}} testimonials</h6>
+  <a href="/admin/testimonials/new" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>Add Testimonial</a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Customer</th>
+          <th>Quote</th>
+          <th>Rating</th>
+          <th>Order</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each testimonials}}
+          <tr>
+            <td class="d-flex align-items-center gap-2">
+              {{#if this.photoUrl}}
+                <img src="{{this.photoUrl}}" class="admin-thumb" alt="{{this.customerName}}" style="border-radius: 50%;">
+              {{else}}
+                <div class="admin-thumb bg-light d-flex align-items-center justify-content-center" style="border-radius: 50%;">
+                  <i class="bi bi-person text-muted"></i>
+                </div>
+              {{/if}}
+              <div>
+                <div>{{this.customerName}}</div>
+                {{#if this.customerTitle}}<div class="text-muted small">{{this.customerTitle}}</div>{{/if}}
+              </div>
+            </td>
+            <td class="small text-muted" style="max-width: 320px;">{{truncate this.quote 90}}</td>
+            <td class="text-warning small text-nowrap">{{{stars this.rating}}}</td>
+            <td class="text-muted small">{{this.order}}</td>
+            <td>
+              {{#if this.isActive}}
+                <span class="badge text-bg-success">Active</span>
+              {{else}}
+                <span class="badge text-bg-secondary">Hidden</span>
+              {{/if}}
+            </td>
+            <td class="text-end">
+              <a href="/admin/testimonials/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form method="POST" action="/admin/testimonials/{{this.id}}/delete" class="d-inline" data-confirm="Delete this testimonial?">
+                {{> csrf}}
+                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+              </form>
+            </td>
+          </tr>
+        {{else}}
+          <tr><td colspan="6" class="text-center text-muted py-4">No testimonials yet — add customer feedback to build trust on the homepage.</td></tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

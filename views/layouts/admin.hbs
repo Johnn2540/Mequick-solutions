@@ -60,6 +60,9 @@
             <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/partners')}}active{{/if}}" href="/admin/partners">
               <i class="bi bi-building me-2"></i>Partners
             </a>
+            <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/testimonials')}}active{{/if}}" href="/admin/testimonials">
+              <i class="bi bi-chat-quote me-2"></i>Testimonials
+            </a>
             {{#eq currentUser.role 'SUPER_ADMIN'}}
               <a class="nav-link text-white-50 {{#if (startsWith currentPath '/admin/users')}}active{{/if}}" href="/admin/users">
                 <i class="bi bi-people me-2"></i>Users
